@@ -4,20 +4,23 @@ import User from './user/User'
 import Register from './register/Register';
 import Login from './login/Login';
 import Post from './post/Post';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 
 
 function App() // main setup for the app. Route components based off of the url path
 {
+  const loggedIn = useSelector(state => state.auth.loggedIn); // is user logged in
+
   return (
     <>
       <Router>
-        <Route path="/">
-          <Home />
+        <Route exact path="/">
+          { loggedIn ? <Home /> : <Redirect to="/login" /> }
         </Route>
-        <Route path="/user">
-          <User />
+        <Route exact path="/user">
+        { loggedIn ? <User /> : <Redirect to="/login" /> }
         </Route>
         <Route path="/register">
           <Register />
@@ -28,7 +31,7 @@ function App() // main setup for the app. Route components based off of the url 
 
         <Switch>
           <Route path="/:id" >
-          <Post />
+            { loggedIn ? <Post /> : <Redirect to="/login" /> }
           </Route>
         </Switch>
       </Router>

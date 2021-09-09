@@ -18,6 +18,12 @@ function Sidebar()
 {
     toggleSidebar();
 
+    function logout()
+    {
+        console.log("logout clickd")
+        fetch("/logout")
+    }
+
     return (
         <>
             <div class="wrapper">
@@ -28,14 +34,14 @@ function Sidebar()
                     </a>
                     <div class="profile">
                         <img src={test} alt="profile_picture" />
-                        <p className="high-emphasis">Example Name</p>
+                        <p className="high-emphasis item">Example Name</p>
                     </div>
                     <ul class="sidebar-items">
                         <li class="sidebar-item">
                             <Link to="/user" class="active" onClick={toggleSidebar}>
                                 <span class="item high-emphasis"><i class="fas fa-user"></i>Profile</span>
                             </Link>
-                            <a class="active">
+                            <a onClick={logout} class="active">
                                 <span class="item high-emphasis"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</span>
                             </a>
                         </li>

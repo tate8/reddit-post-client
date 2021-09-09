@@ -1,84 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import $ from 'jquery'
-import gsap from 'gsap';
-
-class HoverButton {
-    constructor(el) {
-      this.el = el;
-      this.hover = false;
-      this.calculatePosition();
-      this.attachEventsListener();
-    }
-    
-    attachEventsListener() {
-      window.addEventListener('mousemove', e => this.onMouseMove(e));
-      window.addEventListener('resize', e => this.calculatePosition(e));
-    }
-    
-    calculatePosition() {
-      gsap.set(this.el, {
-        x: 0,
-        y: 0,
-        scale: 1
-      });
-      const box = this.el.getBoundingClientRect();
-      this.x = box.left + (box.width * 0.5);
-      this.y = box.top + (box.height * 0.5);
-      this.width = box.width;
-      this.height = box.height;
-    }
-    
-    onMouseMove(e) {
-      let hover = false;
-      let hoverArea = (this.hover ? 0.7 : 0.5);
-      let x = e.clientX - this.x;
-      let y = e.clientY - this.y;
-      let distance = Math.sqrt( x*x + y*y );
-      if (distance < (this.width * hoverArea)) {
-         hover = true;
-          if (!this.hover) {
-            this.hover = true;
-          }
-          this.onHover(e.clientX, e.clientY);
-      }
-      
-      if(!hover && this.hover) {
-        this.onLeave();
-        this.hover = false;
-      }
-    }
-    
-    onHover(x, y) {
-      gsap.to(this.el,  {
-        x: (x - this.x) * 0.4,
-        y: (y - this.y) * 0.4,
-        scale: 1.15,
-        ease: 'power2.out',
-        duration: 0.4
-      });
-      this.el.style.zIndex = 10;
-    }
-    onLeave() {
-      gsap.to(this.el, {
-        x: 0,
-        y: 0,
-        scale: 1,
-        ease: 'elastic.out(1.2, 0.4)',
-        duration: 0.7
-      });
-      this.el.style.zIndex = 1;
-    }
-  }
+import HoverButton from '../hoverButton'
   
 
-  
 
 function SearchNavbar()
 {
     // Jquery and JS to toggle sidebar
-    $(document).ready(function() {
+    $(function() {
         // make the search button follow mouse
         const searchBtn = document.querySelector('.search-button');
         new HoverButton(searchBtn);
@@ -92,21 +23,52 @@ function SearchNavbar()
         }
     })
 
-    let queryString = '';
+    const [queryString, setQueryString] = useState('')
+    const [autofills, setAutofills] = useState([])
 
-    // get state variables =
+    // get state variables
     const recentlySearched = useSelector(state => state.search.recentlySearched); // array of recently searched queries
     const loggedIn = useSelector(state => state.auth.loggedIn); // is user logged in
     const registered = useSelector(state => state.auth.registered); // is user registered
     const dispatch = useDispatch();
 
+
+    let autofill = () =>
+    {
+        // get autofill subreddits that match the user's partial query in the searchbar
+        fetch('https://www.reddit.com/reddits/search.json?q=%27' + queryString)
+        .then(res => res.json())
+        .then(body => {
+            let results = [];
+            let search = queryString.toLowerCase()
+            for (let i = 0; i < body.data.children.length; i++)
+            {
+                let child = body.data.children[i];
+                if (!child.data.over18)
+                {
+                    if (child.data.display_name.toLowerCase().substring(0, search.length) === search)
+                    {
+                        results.push(child.data.display_name)
+                    }
+                }
+            }
+            setAutofills(results);
+        })
+        if (queryString === '')
+        {
+            setAutofills([]);
+        }
+    }    
+
+
     const searchButtonClicked = (e) => {
         e.preventDefault(); // dont reload page
         dispatch({ type: "SET_QUERY", payload: queryString }); // set query on search btn click
-        dispatch({ type: 'ADD_RECENTLY_SEARCHED', payload: [queryString] }); // add item to recently searched on search btn click
+        dispatch({ type: 'ADD_RECENTLY_SEARCHED', payload: [queryString] });
     }
     let handleChange = (e) => {
-        queryString = e.target.value; // what's in the search text input
+        setQueryString(e.target.value); // what's in the search text input
+        autofill();
     }
 
 
@@ -119,14 +81,27 @@ function SearchNavbar()
             <form className="form-inline search-form">
                 <div className="dropdown">
                     <div className="dropdown-menu dropdown-menu-lg-left search-dropdown" aria-labelledby="dropdownMenuLink">
-                        <h6 class="dropdown-header">Recently Searched</h6>
-                        <div class="dropdown-divider"></div>
-                        {!recentlySearched 
-                        ? <a className="dropdown-item" href="#">No recently searched</a>
-                        : 
-                        recentlySearched.map((element) => {
-                            return <a className="dropdown-item" href="#">{element}</a> // map all recently searched elements as elements in the dropdown
-                        })}
+                        {autofills.length ? 
+                        <>
+                            <h6 class="dropdown-header">Results</h6>
+                            {autofills.map((element) => {
+                                return <a className="dropdown-item" href="#">{element}</a> // map all recently searched elements as elements in the dropdown
+                            })}
+                        </>
+                        : <></>}
+
+                        {recentlySearched.length ?
+                        <>
+                            <h6 class="dropdown-header">Recently Searched</h6>
+                            {!recentlySearched 
+                            ? <a className="dropdown-item" href="#">No recently searched</a>
+                            : 
+                            recentlySearched.map((element) => {
+                                return <a className="dropdown-item" href="#">{element}</a> // map all recently searched elements as elements in the dropdown
+                            })}
+                        </>
+                        : <></> 
+                        }
                     </div>
                 </div>
                 <input className="form-control mr-sm-2 search-input" type="search" placeholder="Search" aria-label="Search" onChange={handleChange} data-toggle="dropdown" />

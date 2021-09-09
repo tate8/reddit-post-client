@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
 import SearchNavbar from "../home/SearchNavbar";
-
 import HostedPost from "./HostedPost";
 import ImagePost from "./ImagePost";
 import LinkPost from "./LinkPost";
@@ -8,10 +6,16 @@ import RichPost from "./RichPost";
 import LoadingResult from "../home/LoadingResult";
 import Comment from "./Comment";
 
+import React, { useEffect, useState } from "react";
 import { useParams, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+import $ from 'jquery'
 
+// scroll to top of page on reload
+$(function(){
+    $(window).scrollTop(0);
+});
 
 function Post() // this componenet will get post data and comments based off of url param 'id' and pass them to the postdata component
 {
@@ -28,8 +32,10 @@ function Post() // this componenet will get post data and comments based off of 
 
 
     useEffect(() => {
-        fetchResults();
-        console.log("USE EFFECT IN POST.JS")
+        if (location.pathname !== '/login' || location.pathname !== '/register')
+        {
+            fetchResults();
+        }
     }, [history]) // fetch result when the url changes
 
 
@@ -49,7 +55,7 @@ function Post() // this componenet will get post data and comments based off of 
         .then(response => response.json())
         .then(body => {
 
-            // console.log(body)
+            console.log(body)
 
             for (let i = 0; i < body[0].data.children.length; ++i) {
                 let child = body[0].data.children[i];

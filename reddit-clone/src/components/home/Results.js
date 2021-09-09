@@ -18,19 +18,20 @@ function Results()
 
     useEffect(() => {
         // change results when query changes
+        console.log("Fetching results from "+query)
         fetchResults();
     }, [query, currentFilter])
     
     let fetchResults = () =>
     {
         let results = [];
-        let img_url = 'loading';
-        let video_url = 'loading';
-        let title = 'loading';
-        let link = 'loading';
-        let type = 'loading';
-        let linkThumbnail = 'loading';
-        let numComments = 'loading';
+        let img_url = '';
+        let video_url = '';
+        let title = '';
+        let link = '';
+        let type = '';
+        let linkThumbnail = '';
+        let numComments = '';
         let postId = '';
 
         fetch('https://www.reddit.com/r/' + query + "/" + currentFilter + '.json')
@@ -94,7 +95,7 @@ function Results()
 
     return (
         <>
-        {!query ? <h2>No Query</h2> :<h6 className="query-text disabled" >Showing results for {query}</h6>}
+        {!query ? <h6 className="query-text disabled" >No query</h6> :<h6 className="query-text disabled" >Showing results for {query}</h6>}
         
         { !results 
         ? <> <LoadingResult /> <LoadingResult /> <LoadingResult /> </>

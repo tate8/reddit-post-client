@@ -9,7 +9,7 @@ function User() // This grabs the account details from the server and passes the
 {
     const [data, setData] = React.useState(null);
     useEffect(() => {
-      fetch(`/account-details/${13}`) // /account number
+      fetch('/account-details') // /account number
         .then((res) => res.json())
         .then((data) => setData(data.contents)); // account name is from server file
     }, []);

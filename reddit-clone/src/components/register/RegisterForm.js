@@ -15,10 +15,10 @@ function RegisterForm()
 
                     {/*  Makes POST request to /register route  */}
                     <form action="/register" method="POST">
-                        <div class="form-group">
+                        {/* <div class="form-group">
                         <label for="full-name">Full Name</label>
                         <input type="full-name" class="form-control" name="full-name" />
-                        </div>
+                        </div> */}
                         <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" class="form-control" name="username" />
