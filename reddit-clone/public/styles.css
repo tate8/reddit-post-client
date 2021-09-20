@@ -59,7 +59,7 @@ video {
 .post-group:hover {
     transition: 0.35s;
     transform: translateY(-10px);
-    box-shadow: 4px 8px 14px #888888;
+    box-shadow: 4px 8px 20px #888;
 }
 .post-image {
     margin: auto;
@@ -333,7 +333,7 @@ body.active .wrapper .sidebar{
 }
 .sidebar-item *:hover {
     text-decoration: none;
-
+    cursor: pointer;
 }
 .sidebar-item .item {
     color: #212121 !important;

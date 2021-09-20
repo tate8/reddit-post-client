@@ -1,27 +1,29 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import test from '../user/test.jpg';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import test from '../user/test.jpg'
 import $ from 'jquery'
 
-function toggleSidebar()
+// Jquery and JS to toggle sidebar
+let toggleSidebar = () =>
 {
-    // Jquery and JS to toggle sidebar
-    $(document).ready(function() {
-        let closeSidebar = document.querySelector(".close-sidebar-button");
+    $((function() {
+        let closeSidebar = document.querySelector(".close-sidebar-button")
         closeSidebar.addEventListener("click", function(){
-            document.querySelector("body").classList.toggle("active");
-        });
-    });
-}
+            document.querySelector("body").classList.toggle("active")
+        })
+    })
+)}
 
 function Sidebar()
 {
-    toggleSidebar();
+    toggleSidebar()
 
-    function logout()
+    let logout = () =>
     {
         console.log("logout clickd")
-        fetch("/logout")
+        fetch('/logout') // log user out
+        window.location.reload() // reload page
+        return false
     }
 
     return (
@@ -30,7 +32,6 @@ function Sidebar()
                 <div class="sidebar">
                     <a onClick={toggleSidebar}>
                     <i class="close-sidebar-button fas fa-times fa-2x low-emphasis"></i>
-
                     </a>
                     <div class="profile">
                         <img src={test} alt="profile_picture" />
@@ -52,4 +53,4 @@ function Sidebar()
     )
 }
 
-export default Sidebar;
+export default Sidebar

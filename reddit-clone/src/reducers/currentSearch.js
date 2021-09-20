@@ -1,5 +1,10 @@
+const defaultState = {
+    query: 'popular',
+    recentlySearched: [],
+    filter: 'best'
+}
 
-const search = (state = { query: 'popular', recentlySearched: [], filter: 'best' }, action) => {
+const search = (state = defaultState, action) => {
     switch (action.type)
     {
         case "SET_QUERY":
@@ -37,5 +42,5 @@ const search = (state = { query: 'popular', recentlySearched: [], filter: 'best'
     }
 }
 
-export default search;
+export default search
 

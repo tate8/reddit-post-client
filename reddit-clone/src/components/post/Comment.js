@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 function Comment(props)
 {
@@ -11,4 +11,4 @@ function Comment(props)
     )
 }
 
-export default Comment;
+export default Comment

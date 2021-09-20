@@ -1,5 +1,9 @@
+const defaultState = {
+    loggedIn: false,
+    registered: false
+}
 
-const auth = (state = {loggedIn: true, registered: false}, action) => {
+const auth = (state = defaultState, action) => {
     switch (action.type)
     {
         case "SET_LOGGED_IN":
@@ -17,5 +21,5 @@ const auth = (state = {loggedIn: true, registered: false}, action) => {
     }
 }
 
-export default auth;
+export default auth
 

@@ -28,6 +28,7 @@ mongoose.connect("mongodb://localhost:27017/userDB", {useNewUrlParser: true}); /
 
 // create a schema for a user in the database
 userSchema = new mongoose.Schema({
+    fullName: String,
     username: String,
     password: String,
     googleId: String,
@@ -57,7 +58,7 @@ passport.serializeUser(function(user, done) {
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/secrets"
+    callbackURL: "http://localhost:3000/auth/google/home"
   },
   function(accessToken, refreshToken, profile, cb) {
     User.findOrCreate({ googleId: profile.id }, function (err, user) {
@@ -68,11 +69,12 @@ passport.use(new GoogleStrategy({
 
 app.get("/auth/google", passport.authenticate("google", { scope: ["profile"] }));
 
-app.get("/auth/google/secrets", 
+app.get("/auth/google/home", 
   passport.authenticate("google", { failureRedirect: "/login" }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect("/secrets");
+    console.log("success auth")
+    res.redirect("/user");
 });
 
 app.route("/login")
@@ -106,7 +108,7 @@ app.route("/register")
 
 .post(function(req, res)
 {
-  User.register({username: req.body.username}, req.body.password, function(err, user)
+  User.register({fullName: req.body.fullName, username: req.body.username}, req.body.password, function(err, user)
   {
     if(err)
     {
@@ -123,6 +125,19 @@ app.route("/register")
   });
 });
 
+app.route('/logged-in')
+.get((req, res) => {
+  if (req.user)
+  {
+    res.json({ loggedIn: true });
+  }
+  else
+  {
+    res.json({ loggedIn: false });
+  }
+})
+
+
 app.route("/logout")
 .get(function(req, res)
 {
@@ -134,10 +149,11 @@ app.route('/account-details')
 .get((req, res) => {
 
     res.json({ contents: {
-        id: 17,
-        accountName: 'Example Account Name'
+        email: req.user.username,
+        accountName: req.user.fullName
     } })
 })
+
 
 // app.route('/search/:query')
 // .get((req, res) => {

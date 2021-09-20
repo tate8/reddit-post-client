@@ -1,7 +1,7 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import ReactDOM from 'react-dom';
-import App from './components/App';
+import React from 'react'
+import { Provider } from 'react-redux'
+import ReactDOM from 'react-dom'
+import App from './components/App'
 import { store } from './store/store'
 
 // render app with global store
@@ -10,4 +10,4 @@ ReactDOM.render(
       <App />
   </Provider>,
   document.getElementById('root')
-);
+)

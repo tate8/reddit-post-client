@@ -1,14 +1,14 @@
-import search from "./currentSearch";
+import search from "./currentSearch"
 import auth from "./auth";
-import postData from "./postData";
-import { combineReducers } from "redux";
+import postData from "./postData"
+import likedPosts from "./likedPosts"
+import { combineReducers } from "redux"
 
-// only one reducer so no need to combine it with anything
 const rootReducer = combineReducers({
     search,
     auth,
-    postData
+    postData,
+    likedPosts
 });
 
-
-export default rootReducer;
+export default rootReducer

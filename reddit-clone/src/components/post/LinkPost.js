@@ -1,8 +1,8 @@
-import React from "react";
+import React from "react"
 
 function LinkPost(props)
 {
-    let linkTrunc = props.link.substring(0, 25) + '...';
+    let linkTrunc = props.link.substring(0, 25) + '...'
     return (
         <>
             <div className="post-page-group">
@@ -15,4 +15,4 @@ function LinkPost(props)
     )
 }
 
-export default LinkPost;
+export default LinkPost

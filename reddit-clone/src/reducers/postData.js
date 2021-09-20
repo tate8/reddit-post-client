@@ -1,5 +1,5 @@
 
-const postData = (state = {  }, action) => {
+const postData = (state = { }, action) => {
     switch (action.type)
     {
         case "SET_CURRENT_POST_ID":
@@ -17,5 +17,5 @@ const postData = (state = {  }, action) => {
     }
 }
 
-export default postData;
+export default postData
 

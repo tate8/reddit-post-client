@@ -1,6 +1,6 @@
-import React from 'react';
-import Navbar from './Navbar';
-import RegisterForm from './RegisterForm';
+import React from 'react'
+import Navbar from './Navbar'
+import RegisterForm from './RegisterForm'
 
 function Register()
 {
@@ -12,4 +12,4 @@ function Register()
     )
 }
 
-export default Register;
+export default Register

@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 function RichPost(props)
 {
@@ -15,4 +15,4 @@ function RichPost(props)
     )
 }
 
-export default RichPost;
+export default RichPost

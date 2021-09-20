@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 
 function Navbar() // simple navbar on login page
@@ -11,7 +11,7 @@ function Navbar() // simple navbar on login page
                 </nav>
             </div>
         </>
-    );
+    )
 }
 
-export default Navbar;
+export default Navbar

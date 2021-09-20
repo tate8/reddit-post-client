@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 function HostedPost(props)
 {
@@ -18,4 +18,4 @@ function HostedPost(props)
     )
 }
 
-export default HostedPost;
+export default HostedPost

@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux'
 function SubredditBox()
 {
     const query = useSelector(state => state.search.query)
-    const dispatch = useDispatch();
+    const loggedIn = useSelector(state => state.auth.loggedIn)
+    const dispatch = useDispatch()
 
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
@@ -26,12 +27,10 @@ function SubredditBox()
             fetch('https://www.reddit.com/r/' + query + '/about.json')
             .then(res => res.json())
             .then(body => {
-
                 if (body.data.over18)
                 {
                     dispatch({ type: 'SET_QUERY', payload: 'popular' })
                 }
-
                 setTitle(body.data.display_name_prefixed)
                 setDescription(body.data.public_description)
                 setIcon(body.data.icon_img)
@@ -40,7 +39,6 @@ function SubredditBox()
                 console.log(err)
             })
         }
-
     }  
 
     return (
