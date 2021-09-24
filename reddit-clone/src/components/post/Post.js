@@ -98,8 +98,9 @@ function Post()
                 // here will get the comments for the post
                 for (let i = 0; i < body[1].data.children.length; ++i) {
                     let comment = body[1].data.children[i]
+                    let author = comment.data.author
                     let content = comment.data.body
-                    let tempComment = <Comment content={content} />
+                    let tempComment = <Comment content={content} author={author} />
                     tempComments.push(tempComment)
                 }
             }

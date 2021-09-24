@@ -3,13 +3,18 @@ const express = require('express');
 const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
+const flash = require('connect-flash');
 const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 const findOrCreate = require("mongoose-findorcreate");
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+
+app.use(flash());
+
 
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
@@ -29,9 +34,10 @@ mongoose.connect("mongodb://localhost:27017/userDB", {useNewUrlParser: true}); /
 // create a schema for a user in the database
 userSchema = new mongoose.Schema({
     fullName: String,
-    username: String,
-    password: String,
+    username: { type: String, unique: true },
+    password: { type: String },
     googleId: String,
+    facebookId: String,
     secret: String
   });
 
@@ -56,51 +62,90 @@ passport.serializeUser(function(user, done) {
 
 // for google Oauth
 passport.use(new GoogleStrategy({
-    clientID: process.env.CLIENT_ID,
-    clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/home"
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:3000/auth/google/home",
+    passReqToCallback: true
   },
-  function(accessToken, refreshToken, profile, cb) {
+  function(request, accessToken, refreshToken, profile, done) {
     User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      return cb(err, user);
+      return done(err, user);
     });
   }
 ));
 
 app.get("/auth/google", passport.authenticate("google", { scope: ["profile"] }));
 
-app.get("/auth/google/home", 
-  passport.authenticate("google", { failureRedirect: "/login" }),
+app.get( '/auth/google/home',
+    passport.authenticate( 'google', {
+        successRedirect: '/',
+        failureRedirect: '/login'
+}));
+
+// Facebook Oauth
+passport.use(new FacebookStrategy({
+  clientID: process.env.FACEBOOK_APP_ID,
+  clientSecret: process.env.FACEBOOK_APP_SECRET,
+  callbackURL: "http://localhost:3000/auth/facebook/home"
+},
+function(accessToken, refreshToken, profile, done) {
+  User.findOrCreate({ facebookId: profile.id }, function(err, user) {
+    if (err) { return done(err); }
+    done(null, user);
+  });
+}
+));
+
+// Redirect the user to Facebook for authentication.  When complete,
+// Facebook will redirect the user back to the application at
+//     /auth/facebook/callback
+app.get('/auth/facebook', passport.authenticate('facebook'));
+
+// Facebook will redirect the user to this URL after approval.  Finish the
+// authentication process by attempting to obtain an access token.  If
+// access was granted, the user will be logged in.  Otherwise,
+// authentication has failed.
+app.get('/auth/facebook/home',
+  passport.authenticate('facebook', { successRedirect: '/',
+                                      failureRedirect: '/login' }));
+
+app.post('/login',
+  passport.authenticate('local', { 
+      successRedirect: '/',
+      failureRedirect: '/login',
+      failureFlash: true 
+    }),
   function(req, res) {
-    // Successful authentication, redirect home.
-    console.log("success auth")
-    res.redirect("/user");
-});
-
-app.route("/login")
-
-.post(function(req, res)
-{
-  const user = new User({
-    username: req.body.username,
-    password:req.body.password
+    // If this function gets called, authentication was successful.
+    // `req.user` contains the authenticated user.
+    console.log('facebook auth sucess')
   });
+  
+// app.route("/login")
 
-  req.login(user, function(err)
-  {
-    if(err)
-    {
-      console.log(err);
-    }
-    else
-    {
-      passport.authenticate("local")(req, res, function()
-      {
-        res.redirect("/");
-      });
-    }
-  });
-});
+// .post(function(req, res)
+// {  
+//   const user = new User({
+//     fullName: 't',
+//     username: req.body.username,
+//     password:req.body.password
+//   });
+//   // WHY MAKING USER INSTEAD OF SEARCHING FOR THEM???? 
+//   req.login(user, function(err)
+//   {
+//     if(err)
+//     {
+//       console.log(err);
+//     }
+//     else
+//     {
+//       passport.authenticate("local", { failureFlash: true })(req, res, function()
+//       {
+//         res.redirect("/");
+//       });
+//     }
+//   });
+// });
 
 
 // REGISTER
@@ -117,12 +162,40 @@ app.route("/register")
     }
     else
     {
-      passport.authenticate("local")(req, res, function()
+      passport.authenticate("local", { failureRedirect: '/register', failureFlash: true })(req, res, function()
       {
         res.redirect("/");
       });
     }
   });
+});
+
+// app.post('/change-password',
+//  (req, res) => {
+//    if (req.isAuthenticated())
+//    {
+//       user.changePassword(req.body.oldPassword, req.body.newPassword, (err) => {
+//       console.log(err)
+//     })
+//    }
+// })
+
+app.post('/change-password', (req, res) => {
+  User.findOne({ username: req.user.username }, (err, user) => {
+    if (err) {
+      console.log(err)
+      
+    }
+    else
+    {
+      user.changePassword(req.body.oldPassword, req.body.newPassword).then(() => {
+        res.redirect('/user')
+      }).catch((err) => {
+        flash("Password is incorrect")
+      })
+    }
+  })
+
 });
 
 app.route('/logged-in')
@@ -147,11 +220,13 @@ app.route("/logout")
 
 app.route('/account-details')
 .get((req, res) => {
-
+  if (req.user)
+  {
     res.json({ contents: {
         email: req.user.username,
         accountName: req.user.fullName
     } })
+  }
 })
 
 

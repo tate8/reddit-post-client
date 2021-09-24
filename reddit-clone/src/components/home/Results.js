@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useLocation } from 'react-router'
 import Result from './Result'
 import LoadingResult from './LoadingResult'
 import Filter from '../Filter'
@@ -9,11 +10,12 @@ function Results()
     const currentFilter = useSelector(state => state.search.filter)
     const query = useSelector(state => state.search.query)
     const results = useSelector(state => state.search.results)
+    const location = useLocation();
     const dispatch = useDispatch()
 
     // change results when query changes
     useEffect(() => {
-        fetchResults()
+        if (location.pathname === '/') { fetchResults() }
     }, [query, currentFilter])
     
     let fetchResults = () =>
@@ -75,7 +77,7 @@ function Results()
                     video_url = child.data.secure_media.oembed.thumbnail_url
                     numComments = child.data.num_comments
                     postId = child.data.id
-                    
+
                     result = <Result title={title} type={type} video_url={video_url} numComments={numComments} postId={postId} />
                 }
                 results.push(result)

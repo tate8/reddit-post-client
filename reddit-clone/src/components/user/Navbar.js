@@ -2,21 +2,22 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import $ from 'jquery'
 
-// simple navbar on the user page to be able to get back to the home page
-function Navbar()
+function toggleSidebar()
 {
     // Jquery and JS to toggle sidebar
     $((function() {
-        var hamburger = document.querySelector(".hamburger")
-        hamburger.addEventListener("click", function(){
-            document.querySelector("body").classList.toggle("active")
-        })
+        document.querySelector("body").classList.toggle("active")
     }))
+}
+
+// simple navbar on the user page to be able to get back to the home page
+function Navbar()
+{
     return (
         <>
             <nav className="navbar justify-content-between">
                 <Link to="/" className="navbar-brand">Reddit 2.0</Link>
-                <div class="hamburger">
+                <div class="hamburger" onClick={toggleSidebar}>
                     <a href="#">
                         <i class="fas fa-bars fa-2x"></i>
                     </a>

@@ -21,7 +21,7 @@ function LoginForm()
                                         <label for="password">Password</label>
                                         <input type="password" class="form-control" name="password" />
                                     </div>
-                                    <button type="submit" class="btn btn-dark btn-outline-light">Login</button>
+                                    <button type="submit" class="btn btn-outline-light login-button">Login</button>
                                     <Link to="/register" className="btn btn dark">Register instead</Link>
                                 </form>
                             </div>
@@ -33,6 +33,14 @@ function LoginForm()
                                 <a class="btn btn-block" href="/auth/google" role="button">
                                     <i class="fab fa-google"></i>
                                     Sign In with Google
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <a class="btn btn-block" href="/auth/facebook" role="button">
+                                    <i class="fab fa-facebook"></i>
+                                    Sign In with Facebook
                                 </a>
                             </div>
                         </div>

@@ -6,6 +6,10 @@ import $ from 'jquery'
 import HoverButton from '../hoverButton'
   
 
+function toggleSidebar()
+{
+    document.querySelector("body").classList.toggle("active")
+}
 
 function SearchNavbar()
 {
@@ -15,13 +19,7 @@ function SearchNavbar()
         const searchBtn = document.querySelector('.search-button')
         new HoverButton(searchBtn)
 
-        var hamburger = document.querySelector(".hamburger")
-        if (hamburger) { // if the user isn't logged in, the hamburger won't be rendered
-            hamburger.addEventListener("click", function(){
-                document.querySelector("body").classList.toggle("active")
-                $(".cover-content").toggleClass('active')
-            })
-        }
+        
     })
 
     const [queryString, setQueryString] = useState('')
@@ -113,7 +111,7 @@ function SearchNavbar()
 {/* LOGIN AND REGISTER BTNS IF USER ISN'T AUTHENITCATED */}
                 { !loggedIn && [<Link to="/login" className="btn btn-outline-light">Login</Link>, <Link to="/register" className="btn btn-outline-light">Register</Link>] }
                 { loggedIn && 
-                <div class="hamburger">
+                <div class="hamburger" onClick={toggleSidebar}>
                         <i class="fas fa-bars fa-2x"></i>
                 </div>
                 }
