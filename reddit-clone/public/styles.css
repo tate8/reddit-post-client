@@ -304,9 +304,9 @@ video {
 .change-password-button {
     padding: 20px;
     /* background: #cd0d32; */
-    background: darkgray;
-    color: white !important;
-    border-radius: 10px;
+    background: var(--orange);
+    color: white;
+    border-radius: 15px;
 }
 .change-password-button:hover {
     cursor: pointer;
@@ -545,6 +545,11 @@ body.active .wrapper .sidebar{
 .page-link {
     font-size: 1rem;
 }
+.back-button {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+}
 
 /* COMMENTS */
 
@@ -598,9 +603,19 @@ body.active .wrapper .sidebar{
 }
 
 
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+
 /* CHANGE PASSWORD POPUP */
 .change-password-container {
-    position: absolute;
+    animation: fadein 0.5s;
+    position: fixed;
     top: 0; left: 0; bottom: 0; right: 0;
     margin: auto;
     width: 40vw;
@@ -645,5 +660,30 @@ body.active .wrapper .sidebar{
     padding: 7px;
 }
 .change-password-container .close-button:hover {
+    cursor: pointer;
+}
+
+
+/* PAGINATE */
+
+.paginate {
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    width: 20%;
+    margin: 0 auto 40px auto;
+    padding: 8px;
+    border-radius: 18px;
+}
+.paginate-left * {
+    text-align: left;
+}
+.paginate-left * {
+    text-align: right;
+}
+.paginate-left:hover {
+    cursor: pointer;
+}
+.paginate-right:hover {
     cursor: pointer;
 }

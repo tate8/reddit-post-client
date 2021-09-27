@@ -9,6 +9,7 @@ function AccountDetails(props)
     let accountName = props.accountName
     let likedPosts = props.likedPosts
     let show = props.showSetPassword
+    let profileImage = props.accountProfileImage
 
     const dispatch = useDispatch();
 
@@ -27,7 +28,7 @@ function AccountDetails(props)
         <>
             <div className="profile-conatiner">
                 <div className="profile-image-container">
-                    <img className="profile-image" src={test} alt="profile-image"></img>
+                    <img className="profile-image" src={!profileImage ? 'loading' : profileImage} alt="profile-image"></img>
                 </div>
                 <div className="primary-account-details-container">
                     <h1 className="account-name high-emphasis">{!accountName ? 'loading' : accountName}</h1>

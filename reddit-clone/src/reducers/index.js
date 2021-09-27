@@ -2,7 +2,8 @@ import search from "./currentSearch"
 import auth from "./auth";
 import postData from "./postData"
 import likedPosts from "./likedPosts"
-import changePasswordPopup from "./changePasswordPopup";
+import changePasswordPopup from "./changePasswordPopup"
+import pagination from "./pagination"
 import { combineReducers } from "redux"
 
 const rootReducer = combineReducers({
@@ -10,7 +11,8 @@ const rootReducer = combineReducers({
     auth,
     postData,
     likedPosts,
-    changePasswordPopup
+    changePasswordPopup,
+    pagination
 });
 
 export default rootReducer

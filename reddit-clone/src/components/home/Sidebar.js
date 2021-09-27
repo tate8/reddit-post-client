@@ -36,7 +36,7 @@ function Sidebar()
                 <div class="sidebar">
                     <i class="close-sidebar-button fas fa-times fa-2x low-emphasis" onClick={toggleSidebar}></i>
                     <div class="profile">
-                        <img src={test} alt="profile_picture" />
+                        <img src={data.profileImage} alt="profile_picture" />
                         <p className="high-emphasis item">{data.accountName }</p>
                     </div>
                     <ul class="sidebar-items">

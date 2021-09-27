@@ -34,8 +34,7 @@ function SearchNavbar()
 
     
     // get autofill subreddits that match the user's partial query in the searchbar
-    let autofill = () =>
-    {
+    useEffect(() => {
         fetch('https://www.reddit.com/reddits/search.json?q=%27' + queryString)
         .then(res => res.json())
         .then(body => {
@@ -58,8 +57,7 @@ function SearchNavbar()
         {
             setAutofills([])
         }
-    }    
-
+    }, [queryString])
 
     const searchButtonClicked = (e) => {
         e.preventDefault() // dont reload page
@@ -68,14 +66,13 @@ function SearchNavbar()
     }
     let handleChange = (e) => {
         setQueryString(e.target.value) // what's in the search text input
-        autofill()
     }
 
 
 
     return (
         <>
-            <nav className="navbar justify-content-between">
+            <nav className="navbar justify-content-between" id="nav">
                 <Link to="/" className="navbar-brand">Reddit 2.0</Link>
 
 {/* SEARCH FORM */}

@@ -33,6 +33,7 @@ function User()
             { location.pathname === '/user' && 
             <AccountDetails accountName={!data ? "loading" : data.accountName} 
                             accountId={!data ? 'loading' : data.email} 
+                            accountProfileImage={!data ? 'loading' : data.profileImage} 
                             likedPosts={!likedPosts.length ? [<LoadingResult />, <LoadingResult />, <LoadingResult />] : likedPosts} 
                             showSetPassword={showChangePasswordPopup} /> } 
                             

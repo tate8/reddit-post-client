@@ -1,10 +1,14 @@
 import React from "react"
+import { Link } from 'react-router-dom'
 
 function ImagePost(props)
 {
     return (
         <>
             <div className="post-page-group">
+                <div className="back-button">
+                    <Link to="/">Back</Link>
+                </div>
                 <div className="">
                     <img className="post-page-image" src={props.src} alt={props.src}></img>
                 </div>

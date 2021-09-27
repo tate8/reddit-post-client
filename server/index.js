@@ -8,6 +8,8 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const findOrCreate = require("mongoose-findorcreate");
+const gravatar = require('mongoose-gravatar');
+
 
 const PORT = process.env.PORT || 3001;
 
@@ -36,6 +38,7 @@ userSchema = new mongoose.Schema({
     fullName: String,
     username: { type: String, unique: true },
     password: { type: String },
+    profileImage: { type: String },
     googleId: String,
     facebookId: String,
     secret: String
@@ -44,6 +47,7 @@ userSchema = new mongoose.Schema({
 // plugin packages for more functionality
 userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
+userSchema.plugin(gravatar, { secure: true, default: "monsterid", size: 245, property: 'username' });
 
 // create user model from the user schema
 const User = new mongoose.model("User", userSchema);
@@ -68,13 +72,14 @@ passport.use(new GoogleStrategy({
     passReqToCallback: true
   },
   function(request, accessToken, refreshToken, profile, done) {
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
+    User.findOrCreate({ googleId: profile.id, fullName: profile.displayName, username: profile.emails[0].value }, function (err, user) {
+      user.profileImage = profile.photos[0].value;
       return done(err, user);
     });
   }
 ));
 
-app.get("/auth/google", passport.authenticate("google", { scope: ["profile"] }));
+app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 app.get( '/auth/google/home',
     passport.authenticate( 'google', {
@@ -120,33 +125,6 @@ app.post('/login',
     // `req.user` contains the authenticated user.
     console.log('facebook auth sucess')
   });
-  
-// app.route("/login")
-
-// .post(function(req, res)
-// {  
-//   const user = new User({
-//     fullName: 't',
-//     username: req.body.username,
-//     password:req.body.password
-//   });
-//   // WHY MAKING USER INSTEAD OF SEARCHING FOR THEM???? 
-//   req.login(user, function(err)
-//   {
-//     if(err)
-//     {
-//       console.log(err);
-//     }
-//     else
-//     {
-//       passport.authenticate("local", { failureFlash: true })(req, res, function()
-//       {
-//         res.redirect("/");
-//       });
-//     }
-//   });
-// });
-
 
 // REGISTER
 app.route("/register")
@@ -164,21 +142,12 @@ app.route("/register")
     {
       passport.authenticate("local", { failureRedirect: '/register', failureFlash: true })(req, res, function()
       {
+        req.user.profileImage = user.gravatar()
         res.redirect("/");
       });
     }
   });
 });
-
-// app.post('/change-password',
-//  (req, res) => {
-//    if (req.isAuthenticated())
-//    {
-//       user.changePassword(req.body.oldPassword, req.body.newPassword, (err) => {
-//       console.log(err)
-//     })
-//    }
-// })
 
 app.post('/change-password', (req, res) => {
   User.findOne({ username: req.user.username }, (err, user) => {
@@ -222,20 +191,13 @@ app.route('/account-details')
 .get((req, res) => {
   if (req.user)
   {
-    res.json({ contents: {
+      res.json({ contents: {
         email: req.user.username,
-        accountName: req.user.fullName
+        accountName: req.user.fullName,
+        profileImage: req.user.profileImage
     } })
   }
 })
-
-
-// app.route('/search/:query')
-// .get((req, res) => {
-//     let query = req.params.query;
-
-    
-// })
 
 
 app.listen(PORT, () => {

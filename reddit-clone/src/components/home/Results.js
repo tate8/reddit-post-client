@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useLocation } from 'react-router'
 import Result from './Result'
@@ -7,17 +7,34 @@ import Filter from '../Filter'
 
 function Results()
 {   
+    const [data, setData] = useState(1)
+    const afterListings = useSelector(state => state.pagination.afterListings) // for pagination
+    const page = useSelector(state => state.pagination.page)
     const currentFilter = useSelector(state => state.search.filter)
     const query = useSelector(state => state.search.query)
     const results = useSelector(state => state.search.results)
     const location = useLocation();
     const dispatch = useDispatch()
 
-    // change results when query changes
+
     useEffect(() => {
         if (location.pathname === '/') { fetchResults() }
+    }, [data])
+
+
+    useEffect(() => {
+        if (location.pathname === '/') 
+        {
+            dispatch({ type: 'DELETE_AFTER_LISTINGS' }) // reset after listings ids
+            dispatch({ type: 'DELETE_QUERY_RESULTS' }) // reset results
+            fetchResults()
+        }
     }, [query, currentFilter])
-    
+
+    let fetchNewPosts = () => {
+        setData(Math.random())
+    }
+
     let fetchResults = () =>
     {
         let results = []
@@ -30,12 +47,18 @@ function Results()
         let numComments = ''
         let postId = ''
 
-        fetch('https://www.reddit.com/r/' + query + "/" + currentFilter + '.json')
+
+        fetch('https://www.reddit.com/r/' + query + "/" + currentFilter + '.json?limit=10&after=' + afterListings.at(-1))
         .then(response => response.json())
         .then(body => {
             for (let i = 0; i < body.data.children.length; ++i) {
                 let result = ''
                 let child = body.data.children[i]
+
+                if (i % 9 === 0)
+                {
+                    dispatch({ type: 'SET_AFTER_LISTING', payload: child.data.name })
+                }
 
                 // if chain for different types of posts
                 // Loop through each post from the json gained from the fetch. Parse relevant information and pass as props to a result component
@@ -99,6 +122,8 @@ function Results()
             <> 
                 <Filter />
                 {results.map(p =>p)} 
+
+                <a className="btn btn-success" onClick={fetchNewPosts}>Load more</a>
             </>
             }
         </>

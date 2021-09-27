@@ -1,7 +1,8 @@
 const defaultState = {
     query: 'popular',
     recentlySearched: [],
-    filter: 'best'
+    filter: 'best',
+    results: []
 }
 
 const search = (state = defaultState, action) => {
@@ -12,20 +13,15 @@ const search = (state = defaultState, action) => {
                 ...state,
                 query: action.payload,
             }
-        case "QUERY_RESULTS_TITLES":
-            return {
-                ...state,
-                postTitles: [...action.payload]
-            }
-        case "QUERY_RESULTS_SRCS":
-            return {
-                ...state,
-                postSrcs: [...action.payload]
-            }
         case "QUERY_RESULTS":
             return {
                 ...state,
-                results: [...action.payload]
+                results: [...state.results, ...action.payload]
+            }
+        case "DELETE_QUERY_RESULTS":
+            return {
+                ...state,
+                results: []
             }
         case "ADD_RECENTLY_SEARCHED":
             return {
