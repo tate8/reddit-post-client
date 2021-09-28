@@ -32,6 +32,7 @@ function Post()
     useEffect(() => {
         if (location.pathname !== '/login' || location.pathname !== '/register')
         {
+            console.log('fetch')
             fetchResults()
         }
     }, [history]) // fetch result when the url changes

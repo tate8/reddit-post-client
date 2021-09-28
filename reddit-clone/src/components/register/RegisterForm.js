@@ -15,15 +15,19 @@ function RegisterForm()
                             <form action="/register" method="POST">
                                 <div class="form-group">
                                     <label for="fullName">Full Name</label>
-                                    <input type="fullName" class="form-control" name="fullName" />
+                                    <input type="fullName" class="form-control" name="fullName" required="true" />
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input type="email" class="form-control" name="username" />
+                                    <input type="email" class="form-control" name="username" required="true" />
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input type="password" class="form-control" name="password" />
+                                    <input type="password" class="form-control" name="password" required="true" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="avatar">Choose a profile picture</label>
+                                    <input type="file" class="form-control" name="avatar" accept="image/*" id="file" />
                                 </div>
                                 <button type="submit" class="btn btn-outline-light register-button">Register</button>
                                 <Link to="/login" className="btn btn dark">Login instead</Link>

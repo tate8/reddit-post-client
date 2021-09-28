@@ -23,13 +23,12 @@ function Results()
 
 
     useEffect(() => {
-        if (location.pathname === '/') 
-        {
+
             dispatch({ type: 'DELETE_AFTER_LISTINGS' }) // reset after listings ids
             dispatch({ type: 'DELETE_QUERY_RESULTS' }) // reset results
             fetchResults()
-        }
-    }, [query, currentFilter])
+        
+    }, [query, currentFilter, location.pathname])
 
     let fetchNewPosts = () => {
         setData(Math.random())
@@ -61,7 +60,8 @@ function Results()
                 }
 
                 // if chain for different types of posts
-                // Loop through each post from the json gained from the fetch. Parse relevant information and pass as props to a result component
+                // Loop through each post from the json gained from the fetch
+                // Parse relevant information and pass as props to a result component
                 if (child.data.post_hint === 'image')
                 {
                     type = 'image'

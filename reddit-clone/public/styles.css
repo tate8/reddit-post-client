@@ -13,7 +13,8 @@
 */
 
 :root {
-    --orange: #FD5F00;
+    /* --primaryColor: #FD5F00; */
+    --primaryColor: #FD5F00;
 }
 
 #root {
@@ -146,6 +147,7 @@ video {
     cursor: pointer;
 }
 .comment-number {
+    color: var(--primaryColor) !important;
     text-align: left;
     color: #212121;
     padding: none;
@@ -208,7 +210,7 @@ video {
     width: 100% !important;
     z-index: 2;
     background: #333333;
-    height: 75px;
+    height: 55px;
 }
 .navbar-brand {
     color: #ffffff !important;
@@ -216,6 +218,7 @@ video {
 }
 .search-input {
     width: 40vw !important;
+    height: 30px !important;
 }
 .search-dropdown {
     width: 40vw !important;
@@ -228,12 +231,12 @@ video {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 100%;
     /* background: #FAFAFA; */
     /* background: #FF5722; */
-    background: var(--orange);
+    background: var(--primaryColor);
     color: white;
 }
 .search-button:hover {
@@ -299,12 +302,12 @@ video {
     height: 3px !important;
     opacity: 1;
     border-radius: 30px;
-    color: var(--orange);
+    color: var(--primaryColor);
 }
 .change-password-button {
     padding: 20px;
     /* background: #cd0d32; */
-    background: var(--orange);
+    background: var(--primaryColor);
     color: white;
     border-radius: 15px;
 }
@@ -377,6 +380,7 @@ body.active .wrapper .sidebar{
 	right: 0;
 }
 .fa-bars {
+    font-size: 1.5rem !important;
     color: #ffffff;
 }
 .fa-bars:hover {
@@ -413,7 +417,7 @@ body.active .wrapper .sidebar{
 .sidebar-icon {
     color: white;
     padding: 5px;
-    background: var(--orange);
+    background: var(--primaryColor);
     border-radius: 100%;
 }
 .sidebar-icon-text {
@@ -443,12 +447,12 @@ body.active .wrapper .sidebar{
     padding-top: 150px;
 }
 .login-button {
-    background: var(--orange) !important;
+    background: var(--primaryColor) !important;
 }
 
 /* REGISTER */
 .register-button {
-    background: var(--orange) !important;
+    background: var(--primaryColor) !important;
 }
 
 /* FILTER */
@@ -472,12 +476,12 @@ body.active .wrapper .sidebar{
     transition: 0.2s;
 }
 .filter-group :hover {
-    background: var(--orange);
+    background: var(--primaryColor);
     color: #fafafa !important;
     cursor: pointer;
 }
 .filter-container .active {
-    background: var(--orange);
+    background: var(--primaryColor);
     color: #fafafa !important;
     
 }
@@ -640,7 +644,7 @@ body.active .wrapper .sidebar{
     margin: auto;
 }
 .change-password-container .confirm-button {
-    background: var(--orange);
+    background: var(--primaryColor);
     color: white;
     margin-top: 30px;
     margin-left: 42%;
@@ -655,7 +659,7 @@ body.active .wrapper .sidebar{
     height: 40px;
     width: 40px;
     color: white;
-    background: var(--orange);
+    background: var(--primaryColor);
     border-radius: 100%;
     padding: 7px;
 }

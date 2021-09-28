@@ -38,7 +38,8 @@ userSchema = new mongoose.Schema({
     fullName: String,
     username: { type: String, unique: true },
     password: { type: String },
-    profileImage: { type: String },
+    gravitarImage: { type: String },
+    selectedImage: { data: Buffer, contentType: String },
     googleId: String,
     facebookId: String,
     secret: String
@@ -47,7 +48,7 @@ userSchema = new mongoose.Schema({
 // plugin packages for more functionality
 userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
-userSchema.plugin(gravatar, { secure: true, default: "monsterid", size: 245, property: 'username' });
+userSchema.plugin(gravatar, { secure: true, default: "retro", size: 245, property: 'username' });
 
 // create user model from the user schema
 const User = new mongoose.model("User", userSchema);
@@ -73,7 +74,7 @@ passport.use(new GoogleStrategy({
   },
   function(request, accessToken, refreshToken, profile, done) {
     User.findOrCreate({ googleId: profile.id, fullName: profile.displayName, username: profile.emails[0].value }, function (err, user) {
-      user.profileImage = profile.photos[0].value;
+      user.gravitarImage = profile.photos[0].value;
       return done(err, user);
     });
   }
@@ -131,7 +132,7 @@ app.route("/register")
 
 .post(function(req, res)
 {
-  User.register({fullName: req.body.fullName, username: req.body.username}, req.body.password, function(err, user)
+  User.register({fullName: req.body.fullName, username: req.body.username, selectedImage: req.body.avatar}, req.body.password, function(err, user)
   {
     if(err)
     {
@@ -142,7 +143,8 @@ app.route("/register")
     {
       passport.authenticate("local", { failureRedirect: '/register', failureFlash: true })(req, res, function()
       {
-        req.user.profileImage = user.gravatar()
+        console.log(user)
+        req.user.gravitarImage = user.gravatar()
         res.redirect("/");
       });
     }
@@ -194,7 +196,7 @@ app.route('/account-details')
       res.json({ contents: {
         email: req.user.username,
         accountName: req.user.fullName,
-        profileImage: req.user.profileImage
+        gravitarImage: req.user.gravitarImage
     } })
   }
 })
