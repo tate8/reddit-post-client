@@ -70,7 +70,7 @@ passport.serializeUser(function(user, done) {
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/home",
+    callbackURL: "https://a-reddit-clone.herokuapp.com//auth/google/home",
     passReqToCallback: true
   },
   function(request, accessToken, refreshToken, profile, done) {
@@ -93,7 +93,7 @@ app.get( '/auth/google/home',
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
-  callbackURL: "http://localhost:3000/auth/facebook/home"
+  callbackURL: "https://a-reddit-clone.herokuapp.com//auth/facebook/home"
 },
 function(accessToken, refreshToken, profile, done) {
   User.findOrCreate({ facebookId: profile.id }, function(err, user) {
