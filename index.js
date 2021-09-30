@@ -31,7 +31,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb://localhost:27017/userDB", {useNewUrlParser: true}); // connect to databse
+// mongoose.connect("mongodb://localhost:27017/userDB", {useNewUrlParser: true}); // connect to databse
+mongoose.connect(process.env.MONGO_DB_URI, {useNewUrlParser: true});
 
 // create a schema for a user in the database
 userSchema = new mongoose.Schema({
