@@ -70,7 +70,7 @@ passport.serializeUser(function(user, done) {
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "https://a-reddit-clone.herokuapp.com//auth/google/home",
+    callbackURL: "https://a-reddit-clone.herokuapp.com/auth/google/home",
     passReqToCallback: true
   },
   function(request, accessToken, refreshToken, profile, done) {
