@@ -22,7 +22,7 @@
     "web-vitals": "^1.1.2",
     "yarn": "^1.22.11"
   },
-  "proxy": "http://localhost:3001",
+  "proxy": "https://a-reddit-clone.herokuapp.com/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
