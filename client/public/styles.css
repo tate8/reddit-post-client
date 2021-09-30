@@ -153,6 +153,21 @@ video {
     padding: none;
     margin: none;
 }
+.load-button-container {
+    display: flex;
+    justify-content: center;
+}
+.load-posts-button {
+    padding: 10px;
+    margin-bottom: 8vh;
+    background: var(--primaryColor);
+    color: #fff !important;
+    border-radius: 14px;
+}
+.load-posts-button:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
 /* LOADING POST */
 .post-loading-container {
     position: relative;

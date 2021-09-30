@@ -18,7 +18,8 @@ function apiMiddleware({ dispatch }) {
             }
             else // if user not logged in, return a null action
             {
-                if (action.type === 'QUERY_RESULTS') // limit user to browsing results, only then let the action through
+                // limit user to browsing results, only then let the action through
+                if (action.type === 'QUERY_RESULTS' || action.type === 'DELETE_AFTER_LISTINGS' || action.type === 'DELETE_QUERY_RESULTS')
                 {
                     return next(action)
                 }

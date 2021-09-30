@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useLocation } from 'react-router'
+import { useLocation, useHistory } from 'react-router-dom'
 import Result from './Result'
 import LoadingResult from './LoadingResult'
 import Filter from '../Filter'
@@ -14,22 +14,21 @@ function Results()
     const query = useSelector(state => state.search.query)
     const results = useSelector(state => state.search.results)
     const location = useLocation();
+    const history = useHistory();
     const dispatch = useDispatch()
 
 
     useEffect(() => {
-        if (location.pathname === '/') { fetchResults() }
+        fetchResults()
     }, [data])
 
 
     useEffect(() => {
-
             dispatch({ type: 'DELETE_AFTER_LISTINGS' }) // reset after listings ids
             dispatch({ type: 'DELETE_QUERY_RESULTS' }) // reset results
             fetchResults()
-        
-    }, [query, currentFilter, location.pathname])
-
+    }, [query, currentFilter])
+    
     let fetchNewPosts = () => {
         setData(Math.random())
     }
@@ -123,7 +122,9 @@ function Results()
                 <Filter />
                 {results.map(p =>p)} 
 
-                <a className="btn btn-success" onClick={fetchNewPosts}>Load more</a>
+                <div className="load-button-container">
+                    <a className="load-posts-button" onClick={fetchNewPosts}>Load more</a>
+                </div>
             </>
             }
         </>
