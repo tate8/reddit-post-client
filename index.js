@@ -144,7 +144,6 @@ app.route("/register")
     {
       passport.authenticate("local", { failureRedirect: '/register', failureFlash: true })(req, res, function()
       {
-        console.log(user)
         req.user.gravitarImage = user.gravatar()
         res.redirect("/");
       });
