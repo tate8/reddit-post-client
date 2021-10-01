@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useParams, useHistory, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import $ from 'jquery'
+import fetch from 'cross-fetch' // for safari
 
 import SearchNavbar from "../home/SearchNavbar"
 import HostedPost from "./HostedPost"

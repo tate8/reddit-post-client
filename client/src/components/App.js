@@ -18,8 +18,8 @@ function App() // main setup for the app. Route components based off of the url 
           <Home />
         </Route>
         <Route exact path="/user">
-          {/* { loggedIn ? <User /> : <Redirect to="/login" /> } */}
-          <User />
+          { loggedIn ? <User /> : <Redirect to="/login" /> }
+          {/* <User /> */}
         </Route>
         <Route path="/register">
           <Register />
@@ -30,8 +30,8 @@ function App() // main setup for the app. Route components based off of the url 
 
         <Switch>
           <Route path="/:id" >
-            {/* { loggedIn ? <Post /> : <Redirect to="/login" /> } */}
-            <Post />
+            { loggedIn ? <Post /> : <Redirect to="/login" /> }
+            {/* <Post /> */}
           </Route>
         </Switch>
       </Router>

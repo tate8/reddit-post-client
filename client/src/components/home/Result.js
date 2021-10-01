@@ -37,7 +37,7 @@ function Result(props)
                         <img className="post-image" src={props.src} alt={props.src} onClick={toPost}></img>
                     </div>
                     <p className="post-title high-emphasis">{props.title}</p>
-                    <p className="comment-number medium-emphasis"><i class="fas fa-comments comment-icon"></i> {props.numComments}</p>
+                    <p onClick={toPost} className="comment-number medium-emphasis"><i class="fas fa-comments comment-icon"></i> {props.numComments}</p>
                     <i class="far fa-heart post-heart" onClick={heartAnimation}></i>
                 </div>
             </>
@@ -61,7 +61,7 @@ function Result(props)
                         </div>
                     </div>
                     <p className="post-title high-emphasis">{props.title}</p>
-                    <p className="comment-number medium-emphasis"><i class="fas fa-comments"></i> {props.numComments}</p>
+                    <p onClick={toPost} className="comment-number medium-emphasis"><i class="fas fa-comments"></i> {props.numComments}</p>
                     <i class="far fa-heart post-heart" onClick={heartAnimation}></i>
                 </div>
             </>
@@ -77,7 +77,7 @@ function Result(props)
                         Your browser does not support the video tag.
                     </video>
                     <p className="post-title high-emphasis">{props.title}</p>
-                    <p className="comment-number medium-emphasis"><i class="fas fa-comments"></i> {props.numComments}</p>
+                    <p onClick={toPost} className="comment-number medium-emphasis"><i class="fas fa-comments"></i> {props.numComments}</p>
                     <i class="far fa-heart post-heart" onClick={heartAnimation}></i>
                 </div>
             </>
@@ -92,7 +92,7 @@ function Result(props)
                         <img className="rich-video" src={props.video_url} alt="thumbnail" onClick={toPost}></img>
                     </div>
                     <p className="post-title high-emphasis">{props.title}</p>
-                    <p className="comment-number medium-emphasis"><i class="fas fa-comments"></i> {props.numComments}</p>
+                    <p onClick={toPost} className="comment-number medium-emphasis"><i class="fas fa-comments"></i> {props.numComments}</p>
                     <i class="far fa-heart post-heart" onClick={heartAnimation}></i>
                 </div>
             </>

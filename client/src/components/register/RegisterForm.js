@@ -15,7 +15,7 @@ function RegisterForm()
                             <form action="/register" method="POST">
                                 <div class="form-group">
                                     <label for="fullName">Full Name</label>
-                                    <input type="fullName" class="form-control" name="fullName" required="true" />
+                                    <input type="fullName" class="form-control" name="fullName" required="true" autofocus/>
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email</label>
@@ -36,23 +36,23 @@ function RegisterForm()
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <div class="card social-block">
-                        <div class="card-body">
-                            <a class="btn btn-block" href="/auth/google" role="button">
-                                <i class="fab fa-google"></i>
-                                Sign Up with Google
-                            </a>
+                        <div class="card">
+                            <div class="card-body google-button">
+                                <a class="btn btn-block google-button-text" href="/auth/google" role="button">
+                                    <img className="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"></img>
+                                    Sign In with Google
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body facebook-button">
+                                <a class="btn btn-block facebook-button-text" href="/auth/facebook" role="button">
+                                    <img className="facebook-icon" src="https://i.ibb.co/pnpDRC6/facebook.png"></img>
+                                    Sign In with Facebook
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <a class="btn btn-block" href="/auth/facebook" role="button">
-                                <i class="fab fa-facebook"></i>
-                                Sign Up with Facebook
-                            </a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </>

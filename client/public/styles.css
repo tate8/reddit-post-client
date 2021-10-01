@@ -153,6 +153,9 @@ video {
     padding: none;
     margin: none;
 }
+.comment-number:hover {
+    cursor: pointer;
+}
 .load-button-container {
     display: flex;
     justify-content: center;
@@ -258,7 +261,12 @@ video {
     cursor: pointer;
 }
 
-
+.back-to-home {
+    color: white !important;
+}
+.back-to-home:hover {
+    text-decoration: underline !important;
+}
 .api-p {
     color: #212121 !important;
 }
@@ -463,6 +471,26 @@ body.active .wrapper .sidebar{
 }
 .login-button {
     background: var(--primaryColor) !important;
+}
+.nav-login-button {
+    background: var(--primaryColor);
+    position: absolute;
+    top: 55px;
+    right: 0;
+    padding: 10px 6vw 10px 6vw;
+    color: white;
+}
+ .facebook-icon {
+    position: absolute;
+    left: 20px;
+    max-width: 30px;
+    max-height: 30px;
+}
+.google-icon {
+    position: absolute;
+    left: 20px;
+    max-width: 30px;
+    max-height: 30px; 
 }
 
 /* REGISTER */

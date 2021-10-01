@@ -31,8 +31,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// mongoose.connect("mongodb://localhost:27017/userDB", {useNewUrlParser: true}); // connect to databse
-mongoose.connect(process.env.MONGO_DB_URI, {useNewUrlParser: true});
+// mongoose.connect("mongodb://localhost:27017/userDB", {useNewUrlParser: true}); // connect to databse locally
+mongoose.connect(process.env.MONGO_DB_URI); // connect to cloud databse
 
 // create a schema for a user in the database
 userSchema = new mongoose.Schema({
@@ -138,6 +138,7 @@ app.route("/register")
     if(err)
     {
       console.log(err);
+      flash(err)
       res.redirect("/register");
     }
     else
@@ -154,15 +155,14 @@ app.route("/register")
 app.post('/change-password', (req, res) => {
   User.findOne({ username: req.user.username }, (err, user) => {
     if (err) {
-      console.log(err)
-      
+      console.log(err) 
     }
     else
     {
       user.changePassword(req.body.oldPassword, req.body.newPassword).then(() => {
         res.redirect('/user')
       }).catch((err) => {
-        flash("Password is incorrect")
+        res.send("Something went wrong!, error: " + err)
       })
     }
   })
@@ -185,8 +185,16 @@ app.route('/logged-in')
 app.route("/logout")
 .get(function(req, res)
 {
-  req.logout();
-  res.redirect("/");
+  try 
+  {
+    req.logout();
+    res.redirect("/");
+  }
+  catch (err)
+  {
+    res.send("Something went wrong!, error: " + err)
+  }
+  
 });
 
 app.route('/account-details')
@@ -201,13 +209,13 @@ app.route('/account-details')
   }
 })
 
-if(process.env.NODE_ENV === 'production') {
-  // set static folder
-  app.use(express.static('client/build'));
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
-}
+// if(process.env.NODE_ENV === 'production') {
+//   // set static folder
+//   app.use(express.static('client/build'));
+//   app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+//   });
+// }
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`)
 })

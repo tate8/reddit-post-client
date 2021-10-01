@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 import $ from 'jquery'
+import fetch from 'cross-fetch' // for safari
 import HoverButton from '../hoverButton'
   
 
@@ -18,8 +19,6 @@ function SearchNavbar()
         // make the search button follow mouse
         const searchBtn = document.querySelector('.search-button')
         new HoverButton(searchBtn)
-
-        
     })
 
     const [queryString, setQueryString] = useState('')
@@ -53,6 +52,9 @@ function SearchNavbar()
             }
             setAutofills(results)
         })
+        .catch((err) => {
+            console.log(err)
+        })
         if (queryString === '')
         {
             setAutofills([])
@@ -68,12 +70,10 @@ function SearchNavbar()
         setQueryString(e.target.value) // what's in the search text input
     }
 
-
-
     return (
         <>
             <nav className="navbar justify-content-between" id="nav">
-                <Link to="/" className="navbar-brand">Reddit 2.0</Link>
+                <Link to="/" className="navbar-brand">Re-Reddit</Link>
 
 {/* SEARCH FORM */}
                 <form className="form-inline search-form">
@@ -106,7 +106,7 @@ function SearchNavbar()
                 </form>
                 
 {/* LOGIN AND REGISTER BTNS IF USER ISN'T AUTHENITCATED */}
-                { !loggedIn && [<Link to="/login" className="btn btn-outline-light">Login</Link>, <Link to="/register" className="btn btn-outline-light">Register</Link>] }
+                { !loggedIn && <Link to="/login" className="nav-login-button">Login</Link> }
                 { loggedIn && 
                 <div class="hamburger" onClick={toggleSidebar}>
                         <i class="fas fa-bars fa-2x"></i>

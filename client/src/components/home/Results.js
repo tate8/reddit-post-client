@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useLocation, useHistory } from 'react-router-dom'
+import fetch from 'cross-fetch' // for safari
 import Result from './Result'
 import LoadingResult from './LoadingResult'
 import Filter from '../Filter'
@@ -46,7 +47,7 @@ function Results()
         let postId = ''
 
 
-        fetch('https://www.reddit.com/r/' + query + "/" + currentFilter + '.json?limit=10&after=' + afterListings.at(-1))
+        fetch('https://www.reddit.com/r/' + query + "/" + currentFilter + '.json?limit=10&after=' + afterListings[afterListings.length - 1])
         .then(response => response.json())
         .then(body => {
             for (let i = 0; i < body.data.children.length; ++i) {

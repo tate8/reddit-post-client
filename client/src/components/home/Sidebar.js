@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import test from '../user/test.jpg'
 import $ from 'jquery'
+import fetch from 'cross-fetch' // for safari
 
 // Jquery and JS to toggle sidebar
 let toggleSidebar = () =>
@@ -16,11 +17,18 @@ function Sidebar()
 
     const [data, setData] = useState('loading')
 
-    fetch('/account-details')
-    .then((res) => res.json())
-    .then((data) => {
-        setData(data.contents)
-    }) // account name is from server file
+    useEffect(() => {
+        // only fetch when we don't have the info
+        if (data === 'loading')
+        {
+            fetch('/account-details')
+            .then((res) => res.json())
+            .then((data) => {
+                setData(data.contents)
+            }) // account name is from server file
+        }
+    })
+
 
     let logout = () =>
     {
