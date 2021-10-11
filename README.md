@@ -19,10 +19,11 @@ View [here](https://a-reddit-clone.herokuapp.com/)
 
 ## Features
 
-ReReddit allows you to log in and view posts from the Reddit JSON API.\
-This includes image, link, and video media formats.
+-Log in and view posts from the Reddit JSON API.\
+  This includes image, link, and video media formats.
 
-When signed in the user has the option to search for subreddets of their choosing.\
-Additionally, they can filter the posts within a subreddit based off of popular categories.
+-Search for subreddits of user's choosing.\
 
-ReReddit supports functionality to sign up/log in using both Google and Facebook strategies
+-Filter the posts within a subreddit based off of popular categories.
+
+-Functionality to sign up/log in using both Google and Facebook strategies
