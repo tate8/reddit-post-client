@@ -7,10 +7,10 @@ View [here](https://a-reddit-clone.herokuapp.com/)
 ## Technologies used
 
 * MERN Stack
- 1. MongoDB (Atlas)
- 2. Express.js
- 3. React.js
- 4. Node.js
+  1. MongoDB (Atlas)
+  2. Express.js
+  3. React.js
+  4. Node.js
 * Redux
 * passport
 * JQuery
