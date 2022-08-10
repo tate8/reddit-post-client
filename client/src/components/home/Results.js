@@ -1,135 +1,200 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useLocation, useHistory } from 'react-router-dom'
-import fetch from 'cross-fetch' // for safari
-import Result from './Result'
-import LoadingResult from './LoadingResult'
-import Filter from '../Filter'
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+import fetch from "cross-fetch"; // for safari
+import Result from "./Result";
+import LoadingResult from "./LoadingResult";
+import Filter from "../Filter";
 
-function Results()
-{   
-    const [data, setData] = useState(1)
-    const afterListings = useSelector(state => state.pagination.afterListings) // for pagination
-    const page = useSelector(state => state.pagination.page)
-    const currentFilter = useSelector(state => state.search.filter)
-    const query = useSelector(state => state.search.query)
-    const results = useSelector(state => state.search.results)
-    const location = useLocation();
-    const history = useHistory();
-    const dispatch = useDispatch()
+function Results() {
+  const [data, setData] = useState(1);
+  const afterListings = useSelector((state) => state.pagination.afterListings); // for pagination
 
+  const results = useSelector((state) => state.search.results);
+  let [searchParams, setSearchParams] = useSearchParams();
+  let query = searchParams.get("query");
+  if (query == null) {
+    query = "popular";
+  }
 
-    useEffect(() => {
-        fetchResults()
-    }, [data])
+  let currentFilter = searchParams.get("filter");
+  if (currentFilter == null) {
+    currentFilter = "best";
+  }
 
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-            dispatch({ type: 'DELETE_AFTER_LISTINGS' }) // reset after listings ids
-            dispatch({ type: 'DELETE_QUERY_RESULTS' }) // reset results
-            fetchResults()
-    }, [query, currentFilter])
-    
-    let fetchNewPosts = () => {
-        setData(Math.random())
+  useEffect(() => {
+    fetchResults();
+  }, [data]);
+
+  useEffect(() => {
+    dispatch({ type: "DELETE_AFTER_LISTINGS" }); // reset after listings ids
+    dispatch({ type: "DELETE_QUERY_RESULTS" }); // reset results
+    fetchResults(true);
+  }, [query, currentFilter]);
+
+  let fetchNewPosts = () => {
+    setData(Math.random());
+  };
+
+  let fetchResults = (fetchFirst) => {
+    let results = [];
+    let img_url = "";
+    let video_url = "";
+    let title = "";
+    let link = "";
+    let type = "";
+    let linkThumbnail = "";
+    let numComments = "";
+    let postId = "";
+
+    let qString = null;
+    if (fetchFirst === true || afterListings[afterListings.length - 1] != null) {
+      qString =
+        "https://www.reddit.com/r/" +
+        query +
+        "/" +
+        currentFilter +
+        ".json?limit=10";
+    } else {
+      qString =
+        "https://www.reddit.com/r/" +
+        query +
+        "/" +
+        currentFilter +
+        ".json?limit=10&after=" +
+        afterListings[afterListings.length - 1];
     }
+    console.log(qString)
+    fetch(qString)
+      .then((response) => response.json())
+      .then((body) => {
+        console.log(qString);
+        for (let i = 0; i < body.data.children.length; ++i) {
+          let result = null;
+          let child = body.data.children[i];
 
-    let fetchResults = () =>
-    {
-        let results = []
-        let img_url = ''
-        let video_url = ''
-        let title = ''
-        let link = ''
-        let type = ''
-        let linkThumbnail = ''
-        let numComments = ''
-        let postId = ''
+          if (i % 9 === 0) {
+            dispatch({ type: "SET_AFTER_LISTING", payload: child.data.name });
+          }
 
+          // if chain for different types of posts
+          // Loop through each post from the json gained from the fetch
+          // Parse relevant information and pass as props to a result component
+          const childData = child.data;
+          if (childData.url_overridden_by_dest != null) {
+            // check if image or link
+            let url = childData.url_overridden_by_dest;
+            let urlExtension = url.split(".")[-1];
+            const imageUrlTypes = ["png", "jpg", "jpeg"];
+            if (imageUrlTypes.includes(urlExtension)) {
+              type = "image";
+              img_url = url;
+              title = childData.title;
+              numComments = childData.num_comments;
+              postId = childData.id;
 
-        fetch('https://www.reddit.com/r/' + query + "/" + currentFilter + '.json?limit=10&after=' + afterListings[afterListings.length - 1])
-        .then(response => response.json())
-        .then(body => {
-            for (let i = 0; i < body.data.children.length; ++i) {
-                let result = ''
-                let child = body.data.children[i]
+              result = (
+                <Result
+                  src={img_url}
+                  title={title}
+                  type={type}
+                  numComments={numComments}
+                  postId={postId}
+                />
+              );
+            } else {
+              type = "link";
+              link = url;
+              title = childData.title;
+              linkThumbnail = childData.thumbnail;
+              numComments = childData.num_comments;
+              postId = childData.id;
 
-                if (i % 9 === 0)
-                {
-                    dispatch({ type: 'SET_AFTER_LISTING', payload: child.data.name })
-                }
-
-                // if chain for different types of posts
-                // Loop through each post from the json gained from the fetch
-                // Parse relevant information and pass as props to a result component
-                if (child.data.post_hint === 'image')
-                {
-                    type = 'image'
-                    img_url = child.data.url_overridden_by_dest
-                    title = child.data.title
-                    numComments = child.data.num_comments
-                    postId = child.data.id
-
-                    result = <Result src={img_url} title={title} type={type} numComments={numComments} postId={postId} />
-                }
-                else if (child.data.post_hint === 'link')
-                {
-                    type = 'link'
-                    link = child.data.url_overridden_by_dest
-                    title = child.data.title
-                    linkThumbnail = child.data.thumbnail
-                    numComments = child.data.num_comments
-                    postId = child.data.id
-
-                    result = <Result title={title} type={type} link={link} linkThumbnail={linkThumbnail} numComments={numComments} postId={postId} />
-                }
-                else if (child.data.post_hint === 'hosted:video')
-                {
-                    type = 'hostedVideo'
-                    title = child.data.title
-                    video_url = child.data.secure_media.reddit_video.fallback_url
-                    numComments = child.data.num_comments
-                    postId = child.data.id
-
-                    result = <Result title={title} type={type} video_url={video_url} numComments={numComments} postId={postId} />
-                }
-                else if (child.data.post_hint === 'rich:video')
-                {
-                    type = 'richVideo'
-                    title = child.data.title
-                    video_url = child.data.secure_media.oembed.thumbnail_url
-                    numComments = child.data.num_comments
-                    postId = child.data.id
-
-                    result = <Result title={title} type={type} video_url={video_url} numComments={numComments} postId={postId} />
-                }
-                results.push(result)
+              result = (
+                <Result
+                  title={title}
+                  type={type}
+                  link={link}
+                  linkThumbnail={linkThumbnail}
+                  numComments={numComments}
+                  postId={postId}
+                />
+              );
             }
-            dispatch({type: "QUERY_RESULTS", payload: results}) // send action to update results
-        }).catch((err) => {
-            console.log(err)
-            results = null;
-        })
-    }
+          } else if (
+            childData?.secure_media?.reddit_video?.fallback_url != null
+          ) {
+            type = "hostedVideo";
+            title = childData.title;
+            video_url = childData.secure_media.reddit_video.fallback_url;
+            numComments = childData.num_comments;
+            postId = childData.id;
 
-    return (
+            result = (
+              <Result
+                title={title}
+                type={type}
+                video_url={video_url}
+                numComments={numComments}
+                postId={postId}
+              />
+            );
+          } else if (childData?.secure_media?.oembed?.thumbnail_url != null) {
+            type = "richVideo";
+            title = childData.title;
+            video_url = childData.secure_media.oembed.thumbnail_url;
+            numComments = childData.num_comments;
+            postId = childData.id;
+
+            result = (
+              <Result
+                title={title}
+                type={type}
+                video_url={video_url}
+                numComments={numComments}
+                postId={postId}
+              />
+            );
+          }
+          results.push(result);
+        }
+        dispatch({ type: "QUERY_RESULTS", payload: results }); // send action to update results
+      })
+      .catch((err) => {
+        console.log(err);
+        results = null;
+      });
+  };
+
+  return (
+    <>
+      {!query ? (
+        <h6 className="query-text disabled">No query</h6>
+      ) : (
+        <h6 className="query-text disabled">Showing results for {query}</h6>
+      )}
+
+      {!results ? (
         <>
-            {!query ? <h6 className="query-text disabled" >No query</h6> :<h6 className="query-text disabled" >Showing results for {query}</h6>}
-            
-            { !results 
-            ? <> <LoadingResult /> <LoadingResult /> <LoadingResult /> </>
-            : 
-            <> 
-                <Filter />
-                {results.map(p =>p)} 
-
-                <div className="load-button-container">
-                    <a className="load-posts-button" onClick={fetchNewPosts}>Load more</a>
-                </div>
-            </>
-            }
+          {" "}
+          <LoadingResult /> <LoadingResult /> <LoadingResult />{" "}
         </>
-    )
+      ) : (
+        <>
+          <Filter />
+          {results.map((p) => p)}
+
+          <div className="load-button-container">
+            <a className="load-posts-button" onClick={fetchNewPosts}>
+              Load more
+            </a>
+          </div>
+        </>
+      )}
+    </>
+  );
 }
 
-export default Results
+export default Results;

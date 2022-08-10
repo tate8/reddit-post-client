@@ -1,18 +1,18 @@
-import search from "./currentSearch"
+import search from "./currentSearch";
 import auth from "./auth";
-import postData from "./postData"
-import likedPosts from "./likedPosts"
-import changePasswordPopup from "./changePasswordPopup"
-import pagination from "./pagination"
-import { combineReducers } from "redux"
+import postData from "./postData";
+import likedPosts from "./likedPosts";
+import changePasswordPopup from "./changePasswordPopup";
+import pagination from "./pagination";
+import { combineReducers } from "redux";
 
 const rootReducer = combineReducers({
-    search,
-    auth,
-    postData,
-    likedPosts,
-    changePasswordPopup,
-    pagination
+  search,
+  auth,
+  postData,
+  likedPosts,
+  changePasswordPopup,
+  pagination,
 });
 
-export default rootReducer
+export default rootReducer;

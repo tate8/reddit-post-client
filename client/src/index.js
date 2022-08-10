@@ -1,13 +1,13 @@
-import React from 'react'
-import { Provider } from 'react-redux'
-import ReactDOM from 'react-dom'
-import App from './components/App'
-import { store } from './store/store'
+import React from "react";
+import { Provider } from "react-redux";
+import ReactDOM from "react-dom";
+import App from "./components/App";
+import { store } from "./store/store";
 
 // render app with global store
 ReactDOM.render(
   <Provider store={store}>
-      <App />
+    <App />
   </Provider>,
-  document.getElementById('root')
-)
+  document.getElementById("root")
+);
