@@ -4,7 +4,9 @@ This is a Reddit clone using information from the Reddit JSON API.
 
 View [here](https://a-reddit-clone.herokuapp.com/)
 
-![site GIF](https://user-images.githubusercontent.com/70344865/136733387-8b0a2ab7-1c00-4001-ba4a-b5338aa663f9.gif)
+
+https://user-images.githubusercontent.com/70344865/183781571-ce8c47bb-7dca-4db1-bc78-bd426efe27a8.mov
+
 
 ## Technologies used
 
