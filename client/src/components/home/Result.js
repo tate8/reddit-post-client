@@ -1,6 +1,6 @@
 import React from "react";
 import $ from "jquery";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import LoadingResult from "./LoadingResult";
 
@@ -14,11 +14,11 @@ let heartAnimation = () => {
 function Result(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  let [searchParams, setSearchParams] = useSearchParams();
 
   let toPost = () => {
     let id = props.postId;
-    dispatch({ type: "SET_CURRENT_POST_ID", payload: id });
-    navigate(`/${id}`, { replace: true });
+    navigate({ pathname: "/post", search: `?currentPostId=${id}`});
   };
   // display different result formats based off of the post type
   if (props.type === "image") {

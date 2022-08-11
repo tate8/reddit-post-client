@@ -5,6 +5,8 @@ import fetch from "cross-fetch"; // for safari
 import Result from "./Result";
 import LoadingResult from "./LoadingResult";
 import Filter from "../Filter";
+import SubredditBox from "../SubredditBox";
+
 
 function Results() {
   const [data, setData] = useState(1);
@@ -184,6 +186,8 @@ function Results() {
       ) : (
         <>
           <Filter />
+          <SubredditBox />
+          
           {results.map((p) => p)}
 
           <div className="load-button-container">

@@ -24,7 +24,7 @@ function App() {
           <Route exact path="/user" element={<User />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/:id" element={<Post />} />
+          <Route path="/post" element={<Post />} />
         </Routes>
       </Router>
     </>

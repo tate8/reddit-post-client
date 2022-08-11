@@ -12,7 +12,7 @@ function apiMiddleware({ dispatch }) {
           if (action.type !== "SET_LOGGED_IN") {
             dispatch({ type: "SET_LOGGED_IN", payload: true }); // change user logged in state
           }
-          console.log("action", action);
+          console.log("action", action.type);
           return next(action);
         } // if user not logged in, return a null action
         else {

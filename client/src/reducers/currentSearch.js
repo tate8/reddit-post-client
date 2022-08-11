@@ -7,11 +7,6 @@ const defaultState = {
 
 const search = (state = defaultState, action) => {
   switch (action.type) {
-    case "SET_QUERY":
-      return {
-        ...state,
-        query: action.payload,
-      };
     case "QUERY_RESULTS":
       return {
         ...state,
@@ -26,11 +21,6 @@ const search = (state = defaultState, action) => {
       return {
         ...state,
         recentlySearched: [...action.payload, ...state.recentlySearched],
-      };
-    case "SET_FILTER":
-      return {
-        ...state,
-        filter: action.payload,
       };
     default:
       return state;

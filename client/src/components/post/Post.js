@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import $ from "jquery";
 import fetch from "cross-fetch"; // for safari
 
@@ -21,18 +21,20 @@ $(function () {
 // this componenet will get post data and comments based off of url param 'id' and pass them to the postdata component
 function Post() {
   const [result, setResult] = useState(<LoadingResult />); // show loading result before post gets loaded
+  let [searchParams, setSearchParams] = useSearchParams();
+  let query = searchParams.get("query");
+  if (query == null) {
+    query = "popular";
+  }
+  const currentPostId = searchParams.get("currentPostId");
 
-  let { id } = useParams();
-  const query = useSelector((state) => state.search.query);
-  const comments = useSelector((state) => state.postData.comments);
-  const currentPostId = useSelector((state) => state.postData.id);
+  const [comments, setComments] = useState([]);
   const dispatch = useDispatch();
   const history = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     if (location.pathname !== "/login" || location.pathname !== "/register") {
-      console.log("fetch");
       fetchResults();
     }
   }, [history]); // fetch result when the url changes
@@ -48,21 +50,23 @@ function Post() {
     let subreddit = "";
     let tempComments = [];
 
-    fetch("https://www.reddit.com/r/" + query + "/" + id + ".json")
+    fetch("https://www.reddit.com/r/" + query + "/" + currentPostId + ".json")
       .then((response) => response.json())
       .then((body) => {
         for (let i = 0; i < body[0].data.children.length; ++i) {
           let child = body[0].data.children[i];
 
+          const childData = child.data;
+
           // if chain for different types of posts
           // Loop through each post from the json gained from the fetch. Parse relevant information and pass as props to a result component
-          if (child.data.post_hint === "image") {
-            // child.data.author
-            img_url = child.data.url_overridden_by_dest;
-            title = child.data.title;
-            numComments = child.data.num_comments;
-            postId = child.data.id;
-            subreddit = child.data.subreddit_name_prefixed;
+          if (childData.post_hint === "image") {
+            // childData.author
+            img_url = childData.url_overridden_by_dest;
+            title = childData.title;
+            numComments = childData.num_comments;
+            postId = childData.id;
+            subreddit = childData.subreddit_name_prefixed;
             setResult(
               <ImagePost
                 src={img_url}
@@ -72,12 +76,12 @@ function Post() {
                 subreddit={subreddit}
               />
             );
-          } else if (child.data.post_hint === "link") {
-            link = child.data.url_overridden_by_dest;
-            title = child.data.title;
-            linkThumbnail = child.data.thumbnail;
-            numComments = child.data.num_comments;
-            subreddit = child.data.subreddit_name_prefixed;
+          } else if (childData.post_hint === "link") {
+            link = childData.url_overridden_by_dest;
+            title = childData.title;
+            linkThumbnail = childData.thumbnail;
+            numComments = childData.num_comments;
+            subreddit = childData.subreddit_name_prefixed;
 
             setResult(
               <LinkPost
@@ -88,11 +92,11 @@ function Post() {
                 subreddit={subreddit}
               />
             );
-          } else if (child.data.post_hint === "hosted:video") {
-            title = child.data.title;
-            video_url = child.data.secure_media.reddit_video.fallback_url;
-            numComments = child.data.num_comments;
-            subreddit = child.data.subreddit_name_prefixed;
+          } else if (childData.post_hint === "hosted:video") {
+            title = childData.title;
+            video_url = childData.secure_media.reddit_video.fallback_url;
+            numComments = childData.num_comments;
+            subreddit = childData.subreddit_name_prefixed;
 
             setResult(
               <HostedPost
@@ -102,11 +106,11 @@ function Post() {
                 subreddit={subreddit}
               />
             );
-          } else if (child.data.post_hint === "rich:video") {
-            title = child.data.title;
-            video_url = child.data.secure_media.oembed.thumbnail_url;
-            numComments = child.data.num_comments;
-            subreddit = child.data.subreddit_name_prefixed;
+          } else if (childData.post_hint === "rich:video") {
+            title = childData.title;
+            video_url = childData.secure_media.oembed.thumbnail_url;
+            numComments = childData.num_comments;
+            subreddit = childData.subreddit_name_prefixed;
 
             setResult(
               <RichPost
@@ -127,7 +131,8 @@ function Post() {
             tempComments.push(tempComment);
           }
         }
-        dispatch({ type: "SET_COMMENTS", payload: tempComments }); // send action to update comments
+
+        setComments(tempComments);
       })
       .catch((err) => {
         console.log(err);
@@ -136,11 +141,10 @@ function Post() {
 
   return (
     <>
-      {location.pathname === `/${currentPostId}` && <Sidebar />}
-      {location.pathname === `/${currentPostId}` && <SearchNavbar />}
-      {location.pathname === `/${currentPostId}` && result}
-      {location.pathname === `/${currentPostId}` &&
-        (!comments ? <></> : comments.map((e) => e))}
+      {<Sidebar />}
+      {<SearchNavbar />}
+      {result}
+      {!comments ? <></> : comments.map((e) => e)}
     </>
   );
 }

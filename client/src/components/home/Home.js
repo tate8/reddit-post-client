@@ -3,7 +3,6 @@ import React from "react";
 import SearchNavbar from "./SearchNavbar";
 import Sidebar from "./Sidebar";
 import Results from "./Results";
-import SubredditBox from "../SubredditBox";
 
 function Home() {
   // home page setup. Renders the home components only when the url path is '/'
@@ -12,7 +11,6 @@ function Home() {
     <>
       {location.pathname === "/" && <Sidebar />}
       {location.pathname === "/" && <SearchNavbar />}
-      {location.pathname === "/" && <SubredditBox />}
       {location.pathname === "/" && <Results />}
     </>
   );

@@ -25,45 +25,45 @@ function Filter() {
       {/* FILTER OPTION */}
       <div className="filter-container">
         <h6 className="sort-by">Sort by: </h6>
-        <div className="filter-group">
+        <div className={currentFilter === "best" ? "filter-group active" : "filter-group"}>
           <a
-            class={currentFilter === "best" ? "item active" : "item"}
+            className="item"
             onClick={() => changeFilter("best")}
           >
             <i class="far fa-thumbs-up filter-icon"></i>
             Best
           </a>
         </div>
-        <div className="filter-group">
+        <div className={currentFilter === "hot" ? "filter-group active" : "filter-group"}>
           <a
-            class={currentFilter === "hot" ? "item active" : "item"}
+            className="item"
             onClick={() => changeFilter("hot")}
           >
             <i class="fas fa-fire filter-icon"></i>
             Hot
           </a>
         </div>
-        <div className="filter-group">
+        <div className={currentFilter === "new" ? "filter-group active" : "filter-group"}>
           <a
-            class={currentFilter === "new" ? "item active" : "item"}
+            className="item"
             onClick={() => changeFilter("new")}
           >
             <i class="fas fa-stopwatch filter-icon"></i>
             New
           </a>
         </div>
-        <div className="filter-group">
+        <div className={currentFilter === "top" ? "filter-group active" : "filter-group"}>
           <a
-            class={currentFilter === "top" ? "item active" : "item"}
+            className="item"
             onClick={() => changeFilter("top")}
           >
             <i class="fas fa-satellite filter-icon"></i>
             Top
           </a>
         </div>
-        <div className="filter-group">
+        <div className={currentFilter === "rising" ? "filter-group active" : "filter-group"}>
           <a
-            class={currentFilter === "rising" ? "item active" : "item"}
+            className="item"
             onClick={() => changeFilter("rising")}
           >
             <i class="fas fa-level-up-alt filter-icon"></i>

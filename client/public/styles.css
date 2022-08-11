@@ -64,6 +64,7 @@ video {
     background: #f1f1f1;
     padding: 18px;
     width: 50vh;
+    max-width: 95vw;
     height: fit-content;
     margin: 0 auto 10vh auto;
     border-radius: 8px;
@@ -132,11 +133,6 @@ video {
     color: #212121;
 }
 
-.thumbnail {
-    width: 100%;
-    height: 100%;
-}
-
 .bad-thumbnail {
     position: static;
     margin: 0 auto;
@@ -171,7 +167,6 @@ video {
 }
 
 .comment-number {
-    color: var(--primaryColor) !important;
     text-align: left;
     color: #212121;
     padding: none;
@@ -192,7 +187,7 @@ video {
     margin-bottom: 8vh;
     background: var(--primaryColor);
     color: #fff !important;
-    border-radius: 14px;
+    border-radius: 2rem;
 }
 
 .load-posts-button:hover {
@@ -258,8 +253,8 @@ video {
 /* NAVBAR */
 
 .navbar {
-    position: fixed !important;
-    width: 100% !important;
+    position: fixed;
+    width: 100%;
     z-index: 2;
     background: #333333;
     height: 55px;
@@ -529,8 +524,6 @@ body.active .wrapper .sidebar {
     padding-top: 150px;
 }
 
-.register-navbar-container {}
-
 /* LOGIN */
 .login-container {
     padding-top: 150px;
@@ -547,6 +540,12 @@ body.active .wrapper .sidebar {
     right: 0;
     padding: 10px 6vw 10px 6vw;
     color: white;
+}
+
+.nav-login-button:hover {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .facebook-icon {
@@ -582,8 +581,8 @@ body.active .wrapper .sidebar {
 .filter-container .item {
     color: darkgray;
     left: 20px;
-    padding: 7px 10px 7px 10px !important;
-    border-radius: 25px !important;
+    padding: 7px 10px;
+    border-radius: 25px;
     text-decoration: none;
 }
 
@@ -591,7 +590,14 @@ body.active .wrapper .sidebar {
     transition: 0.2s;
 }
 
-.filter-group :hover {
+.filter-group {
+    width: max-content;
+    padding: 5px 7px;
+    border-radius: 25px;
+    margin-right: 5px;
+}
+
+.filter-group:hover {
     background: var(--primaryColor);
     color: #fafafa !important;
     cursor: pointer;
@@ -627,6 +633,7 @@ body.active .wrapper .sidebar {
     background: #f2f2f2;
     padding: 18px;
     width: 60%;
+    max-width: 95%;
     height: fit-content;
     margin: 0 auto 20vh auto;
     padding-top: 5vh;
@@ -832,4 +839,44 @@ body.active .wrapper .sidebar {
 
 .paginate-right:hover {
     cursor: pointer;
+}
+
+ /* Tablet */
+@media only screen and (max-width: 1250px) {
+    .sr-container {
+        position: static;
+        margin: auto;
+        width: max-content;
+        max-width: 80%;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+}
+
+/* Mobile */
+@media only screen and (max-width: 600px) {
+    .sr-container {
+        position: static;
+        margin: auto;
+        width: max-content;
+        max-width: 80%;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+
+    .filter-container {
+        overflow: scroll;
+    }
+
+    .filter-container * {
+        font-size: .8rem;
+        border-radius: 4px;
+    }
+
+    .filter-group {
+        margin: 0;
+        margin-right: 2px;
+        padding: 2px;
+    }
 }

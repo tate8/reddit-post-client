@@ -10,14 +10,11 @@ import ChangePassword from "./ChangePassword";
 // This grabs the account details from the server and passes them in as props to the AccountDetails component
 function User() {
   const [data, setData] = React.useState(null);
-  const likedPosts = useSelector((state) => state.likedPosts.postIds); // eventually move to database
   const showChangePasswordPopup = useSelector(
     (state) => state.changePasswordPopup.show
   );
 
   useEffect(() => {
-    console.log("Liked Posts: " + likedPosts + ", type: " + typeof likedPosts);
-
     fetch("/account-details")
       .then((res) => res.json())
       .then((data) => {
@@ -41,11 +38,6 @@ function User() {
               : !data.selectedImage
               ? data.gravitarImage
               : data.selectedImage
-          }
-          likedPosts={
-            !likedPosts.length
-              ? [<LoadingResult />, <LoadingResult />, <LoadingResult />]
-              : likedPosts
           }
           showSetPassword={showChangePasswordPopup}
         />

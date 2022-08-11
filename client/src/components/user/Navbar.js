@@ -11,7 +11,6 @@ function toggleSidebar() {
 
 // simple navbar on the user page to be able to get back to the home page
 function Navbar() {
-  const location = useLocation();
   return (
     <>
       <nav className="navbar justify-content-between">
@@ -19,7 +18,7 @@ function Navbar() {
           Reddit 2.0
         </Link>
         <div class="hamburger" onClick={toggleSidebar}>
-          <a href={location}>
+          <a>
             <i class="fas fa-bars fa-2x"></i>
           </a>
         </div>
