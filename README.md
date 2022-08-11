@@ -2,9 +2,6 @@
 
 This is a Reddit clone using information from the Reddit JSON API.
 
-View [here](https://a-reddit-clone.herokuapp.com/)
-
-
 https://user-images.githubusercontent.com/70344865/183781571-ce8c47bb-7dca-4db1-bc78-bd426efe27a8.mov
 
 
