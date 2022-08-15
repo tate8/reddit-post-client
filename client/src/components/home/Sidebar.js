@@ -33,33 +33,33 @@ function Sidebar() {
 
   return (
     <>
-      <div class="wrapper">
-        <div class="sidebar">
+      <div className="wrapper">
+        <div className="sidebar">
           <i
-            class="close-sidebar-button fas fa-times fa-2x low-emphasis"
+            className="close-sidebar-button fas fa-times fa-2x low-emphasis"
             onClick={toggleSidebar}
           ></i>
-          <div class="profile">
+          <div className="profile">
             <img src={data.gravitarImage} alt="profile_picture" />
             <p className="high-emphasis item">{data.accountName}</p>
           </div>
-          <ul class="sidebar-items">
-            <li class="sidebar-item">
-              <Link to="/" class="active" onClick={toggleSidebar}>
-                <span class="item high-emphasis">
-                  <i class="fas fa-home sidebar-icon"></i>
+          <ul className="sidebar-items">
+            <li className="sidebar-item">
+              <Link to="/" className="active" onClick={toggleSidebar}>
+                <span className="item high-emphasis">
+                  <i className="fas fa-home sidebar-icon"></i>
                   <span className="sidebar-icon-text"> Home</span>
                 </span>
               </Link>
-              <Link to="/user" class="active" onClick={toggleSidebar}>
-                <span class="item high-emphasis">
-                  <i class="fas fa-user sidebar-icon"></i>
+              <Link to="/user" className="active" onClick={toggleSidebar}>
+                <span className="item high-emphasis">
+                  <i className="fas fa-user sidebar-icon"></i>
                   <span className="sidebar-icon-text"> Profile</span>
                 </span>
               </Link>
-              <a onClick={logout} class="active">
-                <span class="item high-emphasis">
-                  <i class="fa fa-sign-out sidebar-icon" aria-hidden="true"></i>
+              <a onClick={logout} className="active">
+                <span className="item high-emphasis">
+                  <i className="fa fa-sign-out sidebar-icon" aria-hidden="true"></i>
                   <span className="sidebar-icon-text"> Logout</span>
                 </span>
               </a>

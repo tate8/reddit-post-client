@@ -1,20 +1,8 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
+import React from "react";
 
-function Filter() {
+function Filter({ query, filter }) {
   let [searchParams, setSearchParams] = useSearchParams();
-  let currentFilter = searchParams.get("filter");
-  if (currentFilter == null) {
-    currentFilter = "best";
-  }
-
-  let query = searchParams.get("query");
-  if (query == null) {
-    query = "popular";
-  }
-
-  const dispatch = useDispatch();
 
   let changeFilter = (newFilter) => {
     setSearchParams({ query: query, filter: newFilter });
@@ -25,50 +13,52 @@ function Filter() {
       {/* FILTER OPTION */}
       <div className="filter-container">
         <h6 className="sort-by">Sort by: </h6>
-        <div className={currentFilter === "best" ? "filter-group active" : "filter-group"}>
-          <a
+        <div  data-testid="filter-by-best" className={filter === "best" ? "filter-group active" : "filter-group"}>
+          <div
             className="item"
+            data-testid="filter-by-best-clickable"
             onClick={() => changeFilter("best")}
           >
-            <i class="far fa-thumbs-up filter-icon"></i>
+            <i className="far fa-thumbs-up filter-icon"></i>
             Best
-          </a>
+          </div>
         </div>
-        <div className={currentFilter === "hot" ? "filter-group active" : "filter-group"}>
-          <a
+        <div className={filter === "hot" ? "filter-group active" : "filter-group"}>
+          <div
             className="item"
             onClick={() => changeFilter("hot")}
           >
-            <i class="fas fa-fire filter-icon"></i>
+            <i className="fas fa-fire filter-icon"></i>
             Hot
-          </a>
+          </div>
         </div>
-        <div className={currentFilter === "new" ? "filter-group active" : "filter-group"}>
-          <a
+        <div className={filter === "new" ? "filter-group active" : "filter-group"}>
+          <div
             className="item"
             onClick={() => changeFilter("new")}
           >
-            <i class="fas fa-stopwatch filter-icon"></i>
+            <i className="fas fa-stopwatch filter-icon"></i>
             New
-          </a>
+          </div>
         </div>
-        <div className={currentFilter === "top" ? "filter-group active" : "filter-group"}>
-          <a
+        <div data-testid="filter-by-top" className={filter === "top" ? "filter-group active" : "filter-group"}>
+          <div
+            
             className="item"
             onClick={() => changeFilter("top")}
           >
-            <i class="fas fa-satellite filter-icon"></i>
+            <i className="fas fa-satellite filter-icon"></i>
             Top
-          </a>
+          </div>
         </div>
-        <div className={currentFilter === "rising" ? "filter-group active" : "filter-group"}>
-          <a
+        <div className={filter === "rising" ? "filter-group active" : "filter-group"}>
+          <div
             className="item"
             onClick={() => changeFilter("rising")}
           >
-            <i class="fas fa-level-up-alt filter-icon"></i>
+            <i className="fas fa-level-up-alt filter-icon"></i>
             Rising
-          </a>
+          </div>
         </div>
       </div>
     </>

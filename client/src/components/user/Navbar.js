@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import $ from "jquery";
 
 function toggleSidebar() {
@@ -17,10 +17,8 @@ function Navbar() {
         <Link to="/" className="navbar-brand">
           Reddit 2.0
         </Link>
-        <div class="hamburger" onClick={toggleSidebar}>
-          <a>
-            <i class="fas fa-bars fa-2x"></i>
-          </a>
+        <div className="hamburger" onClick={toggleSidebar}>
+          <i className="fas fa-bars fa-2x"></i>
         </div>
       </nav>
     </>

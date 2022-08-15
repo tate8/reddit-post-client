@@ -42,9 +42,9 @@ function AccountDetails(props) {
           Account Settings
         </h3>
         <hr className="hr-separator" />
-        <a className="change-password-button" onClick={changePasswordClicked}>
+        <div className="change-password-button" onClick={changePasswordClicked}>
           Change Password
-        </a>
+        </div>
       </div>
     </>
   );

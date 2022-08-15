@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import $ from "jquery";
 import fetch from "cross-fetch"; // for safari
 
@@ -10,7 +9,7 @@ import HostedPost from "./HostedPost";
 import ImagePost from "./ImagePost";
 import LinkPost from "./LinkPost";
 import RichPost from "./RichPost";
-import LoadingResult from "../home/LoadingResult";
+import LoadingResult from "../LoadingResult";
 import Comment from "./Comment";
 
 // scroll to top of page on reload
@@ -29,7 +28,6 @@ function Post() {
   const currentPostId = searchParams.get("currentPostId");
 
   const [comments, setComments] = useState([]);
-  const dispatch = useDispatch();
   const history = useNavigate();
   const location = useLocation();
 
@@ -61,7 +59,6 @@ function Post() {
           // if chain for different types of posts
           // Loop through each post from the json gained from the fetch. Parse relevant information and pass as props to a result component
           if (childData.post_hint === "image") {
-            // childData.author
             img_url = childData.url_overridden_by_dest;
             title = childData.title;
             numComments = childData.num_comments;
@@ -74,6 +71,7 @@ function Post() {
                 numComments={numComments}
                 postId={postId}
                 subreddit={subreddit}
+                key={i}
               />
             );
           } else if (childData.post_hint === "link") {
@@ -90,6 +88,7 @@ function Post() {
                 linkThumbnail={linkThumbnail}
                 numComments={numComments}
                 subreddit={subreddit}
+                key={i}
               />
             );
           } else if (childData.post_hint === "hosted:video") {
@@ -104,6 +103,7 @@ function Post() {
                 video_url={video_url}
                 numComments={numComments}
                 subreddit={subreddit}
+                key={i}
               />
             );
           } else if (childData.post_hint === "rich:video") {
@@ -118,6 +118,7 @@ function Post() {
                 video_url={video_url}
                 numComments={numComments}
                 subreddit={subreddit}
+                key={i}
               />
             );
           }

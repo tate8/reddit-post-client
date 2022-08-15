@@ -4,47 +4,47 @@ import { Link } from "react-router-dom";
 function RegisterForm() {
   return (
     <>
-      <div class="container register-container">
+      <div className="container register-container">
         <h1>Register</h1>
-        <div class="row">
-          <div class="col-sm-8">
-            <div class="card">
-              <div class="card-body">
+        <div className="row">
+          <div className="col-sm-8">
+            <div className="card">
+              <div className="card-body">
                 {/*  Makes POST request to /register route  */}
                 <form action="/register" method="POST">
-                  <div class="form-group">
+                  <div className="form-group">
                     <label for="fullName">Full Name</label>
                     <input
                       type="fullName"
-                      class="form-control"
+                      className="form-control"
                       name="fullName"
                       required="true"
                       autofocus
                     />
                   </div>
-                  <div class="form-group">
+                  <div className="form-group">
                     <label for="email">Email</label>
                     <input
                       type="email"
-                      class="form-control"
+                      className="form-control"
                       name="username"
                       required="true"
                     />
                   </div>
-                  <div class="form-group">
+                  <div className="form-group">
                     <label for="password">Password</label>
                     <input
                       type="password"
-                      class="form-control"
+                      className="form-control"
                       name="password"
                       required="true"
                     />
                   </div>
-                  <div class="form-group">
+                  <div className="form-group">
                     <label for="avatar">Choose a profile picture</label>
                     <input
                       type="file"
-                      class="form-control"
+                      className="form-control"
                       name="avatar"
                       accept="image/*"
                       id="file"
@@ -52,7 +52,7 @@ function RegisterForm() {
                   </div>
                   <button
                     type="submit"
-                    class="btn btn-outline-light register-button"
+                    className="btn btn-outline-light register-button"
                   >
                     Register
                   </button>
@@ -63,11 +63,11 @@ function RegisterForm() {
               </div>
             </div>
           </div>
-          <div class="col-sm-4">
-            <div class="card">
-              <div class="card-body google-button">
+          <div className="col-sm-4">
+            <div className="card">
+              <div className="card-body google-button">
                 <a
-                  class="btn btn-block google-button-text"
+                  className="btn btn-block google-button-text"
                   href="/auth/google"
                   role="button"
                 >
@@ -80,10 +80,10 @@ function RegisterForm() {
                 </a>
               </div>
             </div>
-            <div class="card">
-              <div class="card-body facebook-button">
+            <div className="card">
+              <div className="card-body facebook-button">
                 <a
-                  class="btn btn-block facebook-button-text"
+                  className="btn btn-block facebook-button-text"
                   href="/auth/facebook"
                   role="button"
                 >

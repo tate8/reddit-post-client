@@ -7,7 +7,7 @@ function Navbar() {
     <>
       <div className="register-navbar-container">
         <nav className="navbar justify-content-between">
-          <a className="navbar-brand">Reddit 2.0</a>
+          <div className="navbar-brand">Reddit 2.0</div>
           <Link to="/" className="nav-item back-to-home">
             Back to home
           </Link>

@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import Navbar from "./Navbar";
 import AccountDetails from "./AccountDetails";
 import Sidebar from "../home/Sidebar";
-import LoadingResult from "../home/LoadingResult";
 import ChangePassword from "./ChangePassword";
 
 // This grabs the account details from the server and passes them in as props to the AccountDetails component

@@ -1,19 +1,13 @@
 const defaultState = {
-  loggedIn: false,
-  registered: false,
+  isUserAuth: false,
 };
 
 const auth = (state = defaultState, action) => {
   switch (action.type) {
-    case "SET_LOGGED_IN":
+    case "SET_USER_AUTH":
       return {
         ...state,
-        loggedIn: action.payload,
-      };
-    case "SET_REGISTERED":
-      return {
-        ...state,
-        registered: action.payload,
+        isUserAuth: action.payload,
       };
     default:
       return state;

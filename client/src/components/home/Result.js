@@ -1,43 +1,25 @@
 import React from "react";
-import $ from "jquery";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import LoadingResult from "./LoadingResult";
-
-let heartAnimation = () => {
-  $(".post-heart").on("click", () => {
-    $(this).toggleClass("far");
-    $(this).toggleClass("fas");
-  });
-};
+import { useNavigate } from "react-router-dom";
+import LoadingResult from "../LoadingResult";
 
 function Result(props) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  let [searchParams, setSearchParams] = useSearchParams();
 
-  let toPost = () => {
-    let id = props.postId;
-    navigate({ pathname: "/post", search: `?currentPostId=${id}`});
+  const toPost = () => {
+    const id = props.postId;
+    navigate({ pathname: "/post", search: `?currentPostId=${id}` });
   };
+
   // display different result formats based off of the post type
   if (props.type === "image") {
     return (
       <>
         <div className="post-group">
-          <div className="">
-            <img
-              className="post-image"
-              src={props.src}
-              alt={props.src}
-              onClick={toPost}
-            ></img>
-          </div>
-          <p onClick={toPost} className="post-title high-emphasis">
-            {props.title}
-          </p>
-          <p onClick={toPost} className="comment-number medium-emphasis">
-            <i class="fas fa-comments comment-icon"></i> {props.numComments}
+          <div className="post-group-clickable" onClick={toPost}></div>
+            <img className="post-image" src={props.src} alt={props.src}></img>
+          <p className="post-title high-emphasis">{props.title}</p>
+          <p className="comment-number medium-emphasis">
+            <i className="fas fa-comments comment-icon"></i> {props.numComments}
           </p>
         </div>
       </>
@@ -47,29 +29,28 @@ function Result(props) {
     return (
       <>
         <div className="post-group">
+          <div className="post-group-clickable" onClick={toPost}></div>
           <div className="row">
-              {props.linkThumbnail === "default" ? (
-                <div className="bad-thumbnail">
-                  <i class="fas fa-unlink" onClick={toPost}></i>
-                </div>
-              ) : (
+            {/* Default means that there is no thumbnail*/}
+            {props.linkThumbnail === "default" ? (
+              <></>
+            ) : (
+              <>
                 <img
                   className="thumbnail"
                   src={props.linkThumbnail}
-                  alt="thumbnail"
-                  onClick={toPost}
+                  onError={(e) => e.target.style.display = 'none'}
+                  alt=""
                 ></img>
-              )}
-              
-              <a href={props.link}>
-                {linkTrunc} <i className="fas fa-external-link-alt"></i>
-              </a>
+              </>
+            )}
+            <a href={props.link}>
+              {linkTrunc} <i className="fas fa-external-link-alt"></i>
+            </a>
+            <p className="post-title high-emphasis">{props.title}</p>
           </div>
-          <p onClick={toPost} className="post-title high-emphasis">
-            {props.title}
-          </p>
-          <p onClick={toPost} className="comment-number medium-emphasis">
-            <i class="fas fa-comments"></i> {props.numComments}
+          <p className="comment-number medium-emphasis">
+            <i className="fas fa-comments"></i> {props.numComments}
           </p>
         </div>
       </>
@@ -78,21 +59,13 @@ function Result(props) {
     return (
       <>
         <div className="post-group">
-          <video
-            width="300"
-            height="400"
-            controls
-            className="video"
-            onClick={toPost}
-          >
+          <video width="300" height="400" controls className="video">
             <source src={props.video_url} type="video/mp4"></source>
             Your browser does not support the video tag.
           </video>
-          <p onClick={toPost} className="post-title high-emphasis">
-            {props.title}
-          </p>
-          <p onClick={toPost} className="comment-number medium-emphasis">
-            <i class="fas fa-comments"></i> {props.numComments}
+          <p className="post-title high-emphasis" onClick={toPost}>{props.title}</p>
+          <p className="comment-number medium-emphasis">
+            <i className="fas fa-comments"></i> {props.numComments}
           </p>
         </div>
       </>
@@ -102,18 +75,14 @@ function Result(props) {
       <>
         <div className="post-group">
           <div className="col-md-6 post-video-container">
-            <img
-              className="rich-video"
-              src={props.video_url}
-              alt="thumbnail"
-              onClick={toPost}
-            ></img>
+            <video width="300" height="400" controls className="video">
+              <source src={props.video_url} type="video/mp4"></source>
+              Your browser does not support the video tag.
+            </video>
           </div>
-          <p onClick={toPost} className="post-title high-emphasis">
-            {props.title}
-          </p>
-          <p onClick={toPost} className="comment-number medium-emphasis">
-            <i class="fas fa-comments"></i> {props.numComments}
+          <p className="post-title high-emphasis" onClick={toPost}>{props.title}</p>
+          <p className="comment-number medium-emphasis">
+            <i className="fas fa-comments"></i> {props.numComments}
           </p>
         </div>
       </>

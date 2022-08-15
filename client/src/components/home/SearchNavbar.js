@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link, useSearchParams } from "react-router-dom";
-import $ from "jquery";
 import fetch from "cross-fetch"; // for safari
 
 function toggleSidebar() {
@@ -11,14 +10,11 @@ function toggleSidebar() {
 function SearchNavbar() {
   const [queryString, setQueryString] = useState("");
   const [autofills, setAutofills] = useState([]);
+  const [recentlySearched, setRecentlySearched] = useState([]);
+
   let [searchParams, setSearchParams] = useSearchParams();
 
-  // get state variables
-  const recentlySearched = useSelector(
-    (state) => state.search.recentlySearched
-  ); // array of recently searched queries
-  const loggedIn = useSelector((state) => state.auth.loggedIn); // is user logged in
-  const dispatch = useDispatch();
+  const isUserAuth = useSelector((state) => state.auth.isUserAuth); // is user logged in
 
   // get autofill subreddits that match the user's partial query in the searchbar
   useEffect(() => {
@@ -53,26 +49,35 @@ function SearchNavbar() {
   }, [queryString]);
 
   const searchWithQuery = (e) => {
-    const input = document.querySelector(".search-input");
-    input.click();
+    document.querySelector(".search-input").click()
     e.preventDefault(); // dont reload page
 
     // add URL param to signify query subreddit
     setSearchParams({ query: queryString, filter: "best" });
-
-    dispatch({ type: "ADD_RECENTLY_SEARCHED", payload: [queryString] });
+    setRecentlySearched((recentlySearched) => [
+      ...recentlySearched,
+      queryString,
+    ]);
   };
+
+  const searchDropdownItemWithQuery = (e) => {
+    const dropdownItemText = e.target.innerHTML;
+    const searchInput = document.querySelector(".search-input")
+    searchInput.value = dropdownItemText;
+    searchInput.click();
+
+    // add URL param to signify query subreddit
+    setSearchParams({ query: dropdownItemText, filter: "best" });
+    setRecentlySearched((recentlySearched) => [
+      ...recentlySearched,
+      dropdownItemText,
+    ]);
+  }
 
   const handleChange = (e) => {
     setQueryString(e.target.value); // what's in the search text input
   };
 
-  const dropdownItems = document.querySelectorAll(".dropdown-item");
-  dropdownItems.forEach((item) => {
-    item.addEventListener("click", (e) => {
-      document.searchForm.submit();
-    });
-  });
 
   return (
     <>
@@ -82,45 +87,34 @@ function SearchNavbar() {
         </Link>
 
         {/* SEARCH FORM */}
-        <form className="form-inline search-form" onSubmit={searchWithQuery} name="searchForm">
+        <form
+          className="form-inline search-form"
+          onSubmit={searchWithQuery}
+          id="searchForm"
+        >
           <div className="dropdown">
             <div
               className="dropdown-menu dropdown-menu-lg-left search-dropdown"
-              aria-labelledby="dropdownMenuLink"
-            >
+              aria-labelledby="dropdownMenuLink">
               {autofills.length ? (
                 <>
-                  <h6 class="dropdown-header">Results</h6>
-                  {autofills.map((element) => {
-                    return (
-                      <a className="dropdown-item" href="#">
-                        {element}
-                      </a>
-                    ); // map all recently searched elements as elements in the dropdown
+                  <h6 className="dropdown-header">Results</h6>
+                  {autofills.map((element, index) => {
+                    return <div className="dropdown-item" onClick={searchDropdownItemWithQuery} key={index}>{element}</div>; // map all recently searched elements as elements in the dropdown
                   })}
                 </>
+              ) : <></>}
+
+              {recentlySearched.length <= 0 ? (
+                  <div className="dropdown-header">No recently searched</div>
               ) : (
-                <></>
-              )}
-              {recentlySearched.length ? (
                 <>
-                  <h6 class="dropdown-header">Recently Searched</h6>
-                  {!recentlySearched ? (
-                    <a className="dropdown-item" href="#">
-                      No recently searched
-                    </a>
-                  ) : (
-                    recentlySearched.map((element) => {
-                      return (
-                        <a className="dropdown-item" href="#">
-                          {element}
-                        </a>
-                      ); // map all recently searched elements as elements in the dropdown
-                    })
-                  )}
+                  <h6 className="dropdown-header">Recently Searched</h6>
+
+                  {recentlySearched.map((element, index) => {
+                    return <div className="dropdown-item" onClick={searchDropdownItemWithQuery}  key={index}>{element}</div>;
+                  })}
                 </>
-              ) : (
-                <></>
               )}
             </div>
           </div>
@@ -141,14 +135,14 @@ function SearchNavbar() {
         </form>
 
         {/* LOGIN AND REGISTER BTNS IF USER ISN'T AUTHENITCATED */}
-        {!loggedIn && (
+        {!isUserAuth && (
           <Link to="/login" className="nav-login-button">
             Login
           </Link>
         )}
-        {loggedIn && (
-          <div class="hamburger" onClick={toggleSidebar}>
-            <i class="fas fa-bars fa-2x"></i>
+        {isUserAuth && (
+          <div className="hamburger" onClick={toggleSidebar}>
+            <i className="fas fa-bars fa-2x"></i>
           </div>
         )}
       </nav>

@@ -15,9 +15,6 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 
-app.use(flash());
-
-
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
@@ -27,6 +24,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+
+app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -123,6 +122,7 @@ app.post('/login',
       failureFlash: true 
     }),
   function(req, res) {
+    console.
     // If this function gets called, authentication was successful.
     // `req.user` contains the authenticated user.
     console.log('facebook auth sucess')

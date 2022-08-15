@@ -4,7 +4,7 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import React from "react";
 import Home from "./home/Home";
 import User from "./user/User";
@@ -13,8 +13,9 @@ import Login from "./login/Login";
 import Post from "./post/Post";
 
 function App() {
-  // main setup for the app. Route components based off of the url path
-  const loggedIn = useSelector((state) => state.auth.loggedIn); // is user logged in
+  const dispatch = useDispatch(); 
+  dispatch({ type: "REFRESH_USER_AUTH", payload: null})
+  const isUserAuth = useSelector((state) => state.auth.isUserAuth);
 
   return (
     <>
@@ -24,7 +25,7 @@ function App() {
           <Route exact path="/user" element={<User />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/post" element={<Post />} />
+          <Route path="/post" element={ isUserAuth ? <Post /> : <Navigate replace to={"/login"} />} />
         </Routes>
       </Router>
     </>
