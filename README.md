@@ -13,11 +13,12 @@ https://user-images.githubusercontent.com/70344865/183781571-ce8c47bb-7dca-4db1-
   3. React.js
   4. Node.js
 * Redux
-* passport
-
+* Passport
 * JQuery
 * dotenv
 * Gravatar
+* Jest
+* React Testing Library
 
 ## Features
 
